@@ -14,7 +14,7 @@ namespace IznajmljivanjeSmestaja.Models.Interfaces
         Accomodation GetBySmestajId(int id);
         void Edit(Accomodation accomodation);
         void Add(Accomodation accomodation);
-        void Delete(Accomodation accomodation);
+        void Delete(int id);
 
         IEnumerable<AspNetUsers> GetAllUsers();
     }
