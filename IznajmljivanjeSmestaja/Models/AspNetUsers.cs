@@ -7,10 +7,13 @@ namespace IznajmljivanjeSmestaja.Models
     {
         public AspNetUsers()
         {
+            Accomodation = new HashSet<Accomodation>();
+            AccomodationStaging = new HashSet<AccomodationStaging>();
             AspNetUserClaims = new HashSet<AspNetUserClaims>();
             AspNetUserLogins = new HashSet<AspNetUserLogins>();
             AspNetUserRoles = new HashSet<AspNetUserRoles>();
             AspNetUserTokens = new HashSet<AspNetUserTokens>();
+            Reservation = new HashSet<Reservation>();
         }
 
         public string Id { get; set; }
@@ -29,9 +32,12 @@ namespace IznajmljivanjeSmestaja.Models
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
 
+        public virtual ICollection<Accomodation> Accomodation { get; set; }
+        public virtual ICollection<AccomodationStaging> AccomodationStaging { get; set; }
         public virtual ICollection<AspNetUserClaims> AspNetUserClaims { get; set; }
         public virtual ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual ICollection<AspNetUserTokens> AspNetUserTokens { get; set; }
+        public virtual ICollection<Reservation> Reservation { get; set; }
     }
 }

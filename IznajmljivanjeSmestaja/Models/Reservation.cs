@@ -9,6 +9,9 @@ namespace IznajmljivanjeSmestaja.Models
         public DateTime DateCheckin { get; set; }
         public DateTime DateCheckout { get; set; }
         public int IdAccomodation { get; set; }
-        public int IdUser { get; set; }
+        public string IdUser { get; set; }
+
+        public virtual Accomodation IdAccomodationNavigation { get; set; }
+        public virtual AspNetUsers IdUserNavigation { get; set; }
     }
 }

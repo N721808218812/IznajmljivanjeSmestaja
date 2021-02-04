@@ -5,6 +5,11 @@ namespace IznajmljivanjeSmestaja.Models
 {
     public partial class Accomodation
     {
+        public Accomodation()
+        {
+            Reservation = new HashSet<Reservation>();
+        }
+
         public int Id { get; set; }
         public int Rooms { get; set; }
         public int Guests { get; set; }
@@ -16,6 +21,9 @@ namespace IznajmljivanjeSmestaja.Models
         public string Checkin { get; set; }
         public string Checkout { get; set; }
         public bool? Wifi { get; set; }
-        public int? IdUser { get; set; }
+        public string IdUser { get; set; }
+
+        public virtual AspNetUsers IdUserNavigation { get; set; }
+        public virtual ICollection<Reservation> Reservation { get; set; }
     }
 }

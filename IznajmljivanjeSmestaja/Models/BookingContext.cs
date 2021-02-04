@@ -37,7 +37,7 @@ namespace IznajmljivanjeSmestaja.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
+            modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
 
             modelBuilder.Entity<Accomodation>(entity =>
             {
@@ -73,7 +73,9 @@ namespace IznajmljivanjeSmestaja.Models
 
                 entity.Property(e => e.Guests).HasColumnName("guests");
 
-                entity.Property(e => e.IdUser).HasColumnName("idUser");
+                entity.Property(e => e.IdUser)
+                    .HasColumnName("idUser")
+                    .HasMaxLength(450);
 
                 entity.Property(e => e.Rooms).HasColumnName("rooms");
 
@@ -83,6 +85,11 @@ namespace IznajmljivanjeSmestaja.Models
                     .HasMaxLength(50);
 
                 entity.Property(e => e.Wifi).HasColumnName("wifi");
+
+                entity.HasOne(d => d.IdUserNavigation)
+                    .WithMany(p => p.Accomodation)
+                    .HasForeignKey(d => d.IdUser)
+                    .HasConstraintName("FK_Accomodation_AspNetUsers");
             });
 
             modelBuilder.Entity<AccomodationStaging>(entity =>
@@ -119,7 +126,9 @@ namespace IznajmljivanjeSmestaja.Models
 
                 entity.Property(e => e.Guests).HasColumnName("guests");
 
-                entity.Property(e => e.IdUser).HasColumnName("idUser");
+                entity.Property(e => e.IdUser)
+                    .HasColumnName("idUser")
+                    .HasMaxLength(450);
 
                 entity.Property(e => e.Rooms).HasColumnName("rooms");
 
@@ -129,6 +138,11 @@ namespace IznajmljivanjeSmestaja.Models
                     .HasMaxLength(50);
 
                 entity.Property(e => e.Wifi).HasColumnName("wifi");
+
+                entity.HasOne(d => d.IdUserNavigation)
+                    .WithMany(p => p.AccomodationStaging)
+                    .HasForeignKey(d => d.IdUser)
+                    .HasConstraintName("FK_AccomodationStaging_AspNetUsers");
             });
 
             modelBuilder.Entity<AspNetRoleClaims>(entity =>
@@ -235,7 +249,9 @@ namespace IznajmljivanjeSmestaja.Models
 
             modelBuilder.Entity<Reservation>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.DateCheckin)
                     .HasColumnName("dateCheckin")
@@ -247,7 +263,22 @@ namespace IznajmljivanjeSmestaja.Models
 
                 entity.Property(e => e.IdAccomodation).HasColumnName("idAccomodation");
 
-                entity.Property(e => e.IdUser).HasColumnName("idUser");
+                entity.Property(e => e.IdUser)
+                    .IsRequired()
+                    .HasColumnName("idUser")
+                    .HasMaxLength(450);
+
+                entity.HasOne(d => d.IdAccomodationNavigation)
+                    .WithMany(p => p.Reservation)
+                    .HasForeignKey(d => d.IdAccomodation)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Reservation_Accomodation1");
+
+                entity.HasOne(d => d.IdUserNavigation)
+                    .WithMany(p => p.Reservation)
+                    .HasForeignKey(d => d.IdUser)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Reservation_AspNetUsers");
             });
         }
     }
