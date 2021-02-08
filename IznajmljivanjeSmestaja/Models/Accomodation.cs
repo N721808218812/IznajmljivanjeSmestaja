@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IznajmljivanjeSmestaja.Models
 {
@@ -24,7 +25,7 @@ namespace IznajmljivanjeSmestaja.Models
         public string Checkout { get; set; }
         public bool? Wifi { get; set; }
         public string IdUser { get; set; }
-
+        [NotMappedAttribute]
         public IFormFile CoverPhoto { get; set; }
         public string CoverPhotoUrl { get; set; }
 
@@ -33,10 +34,10 @@ namespace IznajmljivanjeSmestaja.Models
         public virtual ICollection<Reservation> Reservation { get; set; }
 
 
-       
-        
 
-       
+
+
+        [NotMappedAttribute]
         public IFormFileCollection GalleryFiles { get; set; }
 
         public List<AccomadationGallery> Gallery { get; set; }
