@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 
 namespace IznajmljivanjeSmestaja.Models
@@ -7,6 +8,7 @@ namespace IznajmljivanjeSmestaja.Models
     {
         public Accomodation()
         {
+            AccomadationGallery = new HashSet<AccomadationGallery>();
             Reservation = new HashSet<Reservation>();
         }
 
@@ -23,7 +25,21 @@ namespace IznajmljivanjeSmestaja.Models
         public bool? Wifi { get; set; }
         public string IdUser { get; set; }
 
+        public IFormFile CoverPhoto { get; set; }
+        public string CoverPhotoUrl { get; set; }
+
         public virtual AspNetUsers IdUserNavigation { get; set; }
+        public virtual ICollection<AccomadationGallery> AccomadationGallery { get; set; }
         public virtual ICollection<Reservation> Reservation { get; set; }
+
+
+       
+        
+
+       
+        public IFormFileCollection GalleryFiles { get; set; }
+
+        public List<AccomadationGallery> Gallery { get; set; }
+
     }
 }

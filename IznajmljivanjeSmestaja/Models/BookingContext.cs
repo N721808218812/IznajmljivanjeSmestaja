@@ -15,6 +15,7 @@ namespace IznajmljivanjeSmestaja.Models
         {
         }
 
+        public virtual DbSet<AccomadationGallery> AccomadationGallery { get; set; }
         public virtual DbSet<Accomodation> Accomodation { get; set; }
         public virtual DbSet<AccomodationStaging> AccomodationStaging { get; set; }
         public virtual DbSet<AspNetRoleClaims> AspNetRoleClaims { get; set; }
@@ -39,6 +40,27 @@ namespace IznajmljivanjeSmestaja.Models
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
 
+            modelBuilder.Entity<AccomadationGallery>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.IdAccomodation).HasColumnName("idAccomodation");
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("name")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.Url)
+                    .IsRequired()
+                    .HasColumnName("url")
+                    .HasMaxLength(200);
+
+                entity.HasOne(d => d.IdAccomodationNavigation)
+                    .WithMany(p => p.AccomadationGallery)
+                    .HasForeignKey(d => d.IdAccomodation)
+                    .HasConstraintName("FK_AccomadationGallery_Accomodation");
+            });
+
             modelBuilder.Entity<Accomodation>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -61,6 +83,10 @@ namespace IznajmljivanjeSmestaja.Models
                     .IsRequired()
                     .HasColumnName("checkout")
                     .HasMaxLength(50);
+
+                entity.Property(e => e.CoverPhotoUrl)
+                    .HasColumnName("coverPhotoUrl")
+                    .HasMaxLength(200);
 
                 entity.Property(e => e.Description)
                     .IsRequired()
@@ -114,6 +140,10 @@ namespace IznajmljivanjeSmestaja.Models
                     .IsRequired()
                     .HasColumnName("checkout")
                     .HasMaxLength(50);
+
+                entity.Property(e => e.CoverPhotoUrl)
+                    .HasColumnName("coverPhotoUrl")
+                    .HasMaxLength(200);
 
                 entity.Property(e => e.Description)
                     .IsRequired()

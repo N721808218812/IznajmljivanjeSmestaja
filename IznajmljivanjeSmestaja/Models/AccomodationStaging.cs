@@ -17,6 +17,7 @@ namespace IznajmljivanjeSmestaja.Models
         public string Checkout { get; set; }
         public bool? Wifi { get; set; }
         public string IdUser { get; set; }
+        public string CoverPhotoUrl { get; set; }
 
         public virtual AspNetUsers IdUserNavigation { get; set; }
     }

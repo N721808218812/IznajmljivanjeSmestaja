@@ -9,7 +9,7 @@ namespace IznajmljivanjeSmestaja.Models.Repository
     public class AdminRepository : IAdminRepository
     {
         public BookingContext database = new BookingContext();
-        public void Add(Accomodation accomodation)
+        public async Task<int> Add(Accomodation accomodation)
         {
             Accomodation a = new Accomodation();
             a.Address = accomodation.Address;
@@ -23,15 +23,24 @@ namespace IznajmljivanjeSmestaja.Models.Repository
             a.Title = accomodation.Title;
             a.Guests = accomodation.Guests;
             a.IdUser = accomodation.IdUser;
-            database.Accomodation.Add(a);
-            try
+            a.CoverPhotoUrl = accomodation.CoverPhotoUrl;
+            
+            a.AccomadationGallery = new List<AccomadationGallery>();
+
+            foreach (var file in accomodation.Gallery)
             {
-                database.SaveChanges();
-            } catch (Exception ex)
-            {
-                Console.WriteLine(ex);
+                a.AccomadationGallery.Add(new AccomadationGallery()
+                {
+                    Name = file.Name,
+                    Url = file.Url
+                });
             }
 
+            await database.Accomodation.AddAsync(a);
+            await database.SaveChangesAsync();
+
+            return a.Id;
+            
         }
 
         public void Aprove(AccomodationStaging accomodationStaging)
@@ -53,12 +62,12 @@ namespace IznajmljivanjeSmestaja.Models.Repository
             {
                 database.SaveChanges();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
 
-}
+        }
 
         public void Delete(int id)
         {
@@ -67,9 +76,9 @@ namespace IznajmljivanjeSmestaja.Models.Repository
                 Accomodation accomodation = database.Accomodation.Where(x => x.Id == id).FirstOrDefault();
                 database.Accomodation.Remove(accomodation);
                 database.SaveChanges();
-                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
@@ -92,9 +101,10 @@ namespace IznajmljivanjeSmestaja.Models.Repository
             try
             {
                 database.SaveChanges();
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
-             Console.WriteLine(ex);
+                Console.WriteLine(ex);
             }
         }
 

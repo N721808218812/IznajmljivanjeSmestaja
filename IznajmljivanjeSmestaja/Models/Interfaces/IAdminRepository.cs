@@ -13,7 +13,7 @@ namespace IznajmljivanjeSmestaja.Models.Interfaces
         AccomodationStaging GetSmestajByStaggingId(int id);
         Accomodation GetBySmestajId(int id);
         void Edit(Accomodation accomodation);
-        void Add(Accomodation accomodation);
+        Task<int> Add(Accomodation accomodation);
         void Delete(int id);
 
         IEnumerable<AspNetUsers> GetAllUsers();
