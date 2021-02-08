@@ -42,7 +42,7 @@ namespace IznajmljivanjeSmestaja.Controllers
 
         [HttpPost]
         public async Task<IActionResult> AddAccomodation(Accomodation accomodation)
-        {
+       {
             if (ModelState.IsValid)
             {
                 if (accomodation.CoverPhoto != null)
@@ -63,6 +63,7 @@ namespace IznajmljivanjeSmestaja.Controllers
                         {
                             Name = file.FileName,
                             Url = await UploadImage(folder, file),
+                            
                         
                         };
                         accomodation.Gallery.Add(gallery);

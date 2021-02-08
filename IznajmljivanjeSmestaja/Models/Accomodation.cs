@@ -40,6 +40,8 @@ namespace IznajmljivanjeSmestaja.Models
         [NotMappedAttribute]
         public IFormFileCollection GalleryFiles { get; set; }
 
+        [NotMappedAttribute]
+        [ForeignKey("Accomodation")]
         public List<AccomadationGallery> Gallery { get; set; }
 
     }

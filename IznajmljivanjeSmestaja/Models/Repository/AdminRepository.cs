@@ -30,25 +30,30 @@ namespace IznajmljivanjeSmestaja.Models.Repository
           
 
             await database.Accomodation.AddAsync(a);
-            await database.SaveChangesAsync();
+            //await database.SaveChangesAsync();
 
-            
+
+            var pom1 = a.Id;
+
             foreach (var file in accomodation.Gallery)
             {
-                a.AccomadationGallery.Add(new AccomadationGallery()
-                {
-                    Name = file.Name,
-                    Url = file.Url,
-                    IdAccomodation = a.Id
-                });
-                
+                AccomadationGallery ac = new AccomadationGallery();
+                ac.Url = file.Url;
+                ac.Name = file.Name;
+                ac.IdAccomodation = pom1;
+                //database.AccomadationGallery.Add(ac);
+                await database.AccomadationGallery.AddAsync(ac);
+
             }
-          
-            foreach(var pom in a.AccomadationGallery)
-            {
-                database.AccomadationGallery.Add(pom);
-            }
-            database.SaveChanges();
+
+            await database.SaveChangesAsync();
+            //database.SaveChanges();
+
+            //foreach(var pom in a.AccomadationGallery)
+            //{
+            //    database.AccomadationGallery.Add(pom);
+            ////}
+           
 
             return a.Id;
             
