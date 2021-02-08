@@ -14,6 +14,7 @@ namespace IznajmljivanjeSmestaja.Controllers
 {
     public class AdminController : Controller
     {
+        public BookingContext database = new BookingContext();
         private readonly IAdminRepository _adminRepository = null;
 
         private readonly IHostingEnvironment _webHostEnvironment = null;
@@ -61,18 +62,17 @@ namespace IznajmljivanjeSmestaja.Controllers
                         var gallery = new AccomadationGallery()
                         {
                             Name = file.FileName,
-                            Url = await UploadImage(folder, file)
+                            Url = await UploadImage(folder, file),
+                        
                         };
                         accomodation.Gallery.Add(gallery);
                     }
-                }
 
 
 
-                int id = await _adminRepository.Add(accomodation);
-                if (id > 0)
-                {
-                    return RedirectToAction(nameof(AddAccomodation), new { isSuccess = true, bookId = id });
+                    int id = await _adminRepository.Add(accomodation);
+                    
+                    
                 }
             }
 

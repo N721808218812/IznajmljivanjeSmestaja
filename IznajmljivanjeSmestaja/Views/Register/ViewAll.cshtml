@@ -1,0 +1,108 @@
+﻿@model IEnumerable<IznajmljivanjeSmestaja.Models.Accomodation>
+
+@{
+    ViewData["Title"] = "Dodaj stan";
+}
+
+<h1>Register</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th hidden>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rooms)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Guests)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amenities)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Directions)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Checkin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Checkout)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Wifi)
+            </th>
+            <th hidden>
+                @Html.DisplayNameFor(model => model.IdUser)
+            </th>
+            <th hidden>
+                @Html.DisplayNameFor(model => model.CoverPhotoUrl)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td hidden>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rooms)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Guests)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amenities)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Directions)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Checkin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Checkout)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Wifi)
+                </td>
+                <td hidden>
+                    @Html.DisplayFor(modelItem => item.IdUser)
+                </td>
+                <td hidden>
+                    @Html.DisplayFor(modelItem => item.CoverPhotoUrl)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

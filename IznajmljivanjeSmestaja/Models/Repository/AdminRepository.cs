@@ -27,17 +27,28 @@ namespace IznajmljivanjeSmestaja.Models.Repository
             
             a.AccomadationGallery = new List<AccomadationGallery>();
 
+          
+
+            await database.Accomodation.AddAsync(a);
+            await database.SaveChangesAsync();
+
+            
             foreach (var file in accomodation.Gallery)
             {
                 a.AccomadationGallery.Add(new AccomadationGallery()
                 {
                     Name = file.Name,
-                    Url = file.Url
+                    Url = file.Url,
+                    IdAccomodation = a.Id
                 });
+                
             }
-
-            await database.Accomodation.AddAsync(a);
-            await database.SaveChangesAsync();
+          
+            foreach(var pom in a.AccomadationGallery)
+            {
+                database.AccomadationGallery.Add(pom);
+            }
+            database.SaveChanges();
 
             return a.Id;
             
