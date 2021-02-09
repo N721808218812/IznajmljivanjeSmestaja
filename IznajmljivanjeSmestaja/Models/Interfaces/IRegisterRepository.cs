@@ -15,7 +15,7 @@ namespace IznajmljivanjeSmestaja.Models.Interfaces
         IEnumerable<Accomodation> ViewAll();
 
         Reservation GetByReservationId(int id);
-        void Reserve(Reservation reservation);
+        void Reserve(Reservation reservation,int id);
         void CancelReservation(Reservation reservation);
 
         IEnumerable<Reservation> GetByUserId(int id); //metoda da korisnik vidi sve svoje rezervacije

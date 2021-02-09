@@ -68,29 +68,32 @@ namespace IznajmljivanjeSmestaja.Models.Repository
             throw new NotImplementedException();
         }//getByUserId
 
-        public void Reserve(Reservation reservation)
+        public void Reserve(Reservation reservation,int id)
         {
             Reservation r = new Reservation();
+            //r.Id = reservation.Id;
             r.DateCheckin = reservation.DateCheckin;
             r.DateCheckout = reservation.DateCheckout;
-            r.IdAccomodation = reservation.IdAccomodation;
+            r.IdAccomodation =id;
+            
             r.IdUser = reservation.IdUser;
             if (database.AspNetUsers.Any(u => u.Id.Equals(r.IdUser)))
             {
                 database.Reservation.Add(r);
+                database.SaveChanges();
             }
             else
             {
                 return;
             }
             
-            try
-            {
-                database.SaveChanges();
-            }catch(Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+            //try
+            //{
+            //    database.SaveChanges();
+            //}catch(Exception ex)
+            //{
+            //    Console.WriteLine(ex);
+            //}
         }//reserve
 
         

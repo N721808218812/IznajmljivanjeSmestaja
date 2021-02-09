@@ -94,14 +94,17 @@
                 <td hidden>
                     @Html.DisplayFor(modelItem => item.IdUser)
                 </td>
-                <td hidden>
-                    @Html.DisplayFor(modelItem => item.CoverPhotoUrl)
+                <td>
+                  
+                    <img src="../@item.CoverPhotoUrl" width="289" height="194" alt="@item.CoverPhotoUrl" />
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                     @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Reserve", "Reserve", new {  id=item.Id  })
                 </td>
+
             </tr>
         }
     </tbody>

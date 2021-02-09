@@ -16,16 +16,16 @@ namespace IznajmljivanjeSmestaja.Controllers
         public RegisterController()
         {
             _registerRepository = new RegisterRepository();
-        }
+        }//constructor
         public IActionResult Index()
         {
             return View();
-        }
+        }//index
 
         public IActionResult ViewAll()
         {
             return View(_registerRepository.ViewAll());
-        }
+        }//viewAll
 
         public IActionResult Edit(int? id)
         {
@@ -34,7 +34,7 @@ namespace IznajmljivanjeSmestaja.Controllers
                 return RedirectToAction("ViewAll");
             }
             return View(database.Accomodation.Where(a => a.Id == id).FirstOrDefault());
-        }
+        }//edit
 
         [HttpPost]
         public IActionResult Edit(Accomodation accomodation)
@@ -46,6 +46,23 @@ namespace IznajmljivanjeSmestaja.Controllers
             }
             else
                 return View(accomodation);
-        }
+        }//edit
+
+        public IActionResult Reserve()
+        {
+            return View();
+        }//reserve
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Reserve(Reservation reservation,int id)
+        {
+            if (ModelState.IsValid)
+            {
+                _registerRepository.Reserve(reservation,id);
+                return View("Uspesno");
+            }else
+                return View(reservation);
+        }//reserve
     }
 }
