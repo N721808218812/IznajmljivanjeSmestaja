@@ -11,7 +11,16 @@ namespace IznajmljivanjeSmestaja.Models.Repository
         public BookingContext database = new BookingContext();
         public void CancelReservation(Reservation reservation)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Reservation r = database.Reservation.Where(i => i.Id.Equals(reservation.Id)).FirstOrDefault();
+                database.Reservation.Remove(r);
+                database.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }//cancelReservation
 
         public void Create(AccomodationStaging accomodationStaging)
@@ -50,22 +59,47 @@ namespace IznajmljivanjeSmestaja.Models.Repository
 
         public IEnumerable<Reservation> GetByAccomodation(int id)
         {
-            throw new NotImplementedException();
+            List<Reservation> reservations = new List<Reservation>();
+            foreach (Reservation reservation in database.Reservation)
+            {
+                if(reservation.IdAccomodation==id)
+                    reservations.Add(reservation);
+            }
+            return reservations;
         }//getByAccomodation
 
         public Reservation GetByReservationId(int id)
         {
-            throw new NotImplementedException();
+            Reservation r = new Reservation();
+            foreach (Reservation reservation in database.Reservation)
+            {
+                if (reservation.Id == id)
+                    r = reservation;
+            }
+            return r;
         }//getByReservationId
 
         public Accomodation GetBySmestajId(int id)
         {
-            throw new NotImplementedException();
+            Accomodation a = new Accomodation();
+            foreach (Accomodation accomodation in database.Accomodation)
+            {
+                if (accomodation.Id == id)
+                    a= accomodation;
+            }
+            return a;
+            
         }//getBySmestajId
 
-        public IEnumerable<Reservation> GetByUserId(int id)
+        public IEnumerable<Reservation> GetByUserId(string id)
         {
-            throw new NotImplementedException();
+            List<Reservation> reservations = new List<Reservation>();
+            foreach (Reservation reservation in database.Reservation)
+            {
+                if(reservation.IdUser.Equals(id))
+                       reservations.Add(reservation);
+            }
+            return reservations;
         }//getByUserId
 
         public void Reserve(Reservation reservation,int id)
@@ -103,23 +137,20 @@ namespace IznajmljivanjeSmestaja.Models.Repository
             List<Accomodation> accomodations = new List<Accomodation>();
             foreach (Accomodation accomodation in database.Accomodation)
             {
-                //Accomodation a = new Accomodation();
-                //a.Address = accomodation.Address;
-                //a.Amenities = accomodation.Amenities;
-                //a.Checkin = accomodation.Checkin;
-                //a.Checkout = accomodation.Checkout;
-                //a.Description = accomodation.Description;
-                //a.Directions = accomodation.Directions;
-                //a.Rooms = accomodation.Rooms;
-                //a.Wifi = accomodation.Wifi;
-                //a.Title = accomodation.Title;
-                //a.Guests = accomodation.Guests;
-                //a.IdUser = accomodation.IdUser;
-
                 accomodations.Add(accomodation);
             }
             return accomodations;
         }//ViewAll
+
+        public IEnumerable<Reservation> ViewAllReservations() //sve rezervacije
+        {
+            List<Reservation> reservations = new List<Reservation>();
+            foreach(Reservation reservation in database.Reservation)
+            {
+                reservations.Add(reservation);
+            }
+            return reservations;
+        }//ViewAllReservations
 
     }//class
 }//namespace
