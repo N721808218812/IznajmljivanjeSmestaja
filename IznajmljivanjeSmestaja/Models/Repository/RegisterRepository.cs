@@ -37,7 +37,11 @@ namespace IznajmljivanjeSmestaja.Models.Repository
             a.Title = accomodationStaging.Title;
             a.Guests = accomodationStaging.Guests;
             a.IdUser = accomodationStaging.IdUser;
-            a.CoverPhotoUrl = accomodationStaging.CoverPhotoUrl;
+            if (accomodationStaging.CoverPhotoUrl != null)
+            {
+                a.CoverPhotoUrl = accomodationStaging.CoverPhotoUrl;
+            }
+                
 
             a.AccomadationGallery = new List<AccomadationGallery>();
 
@@ -46,19 +50,22 @@ namespace IznajmljivanjeSmestaja.Models.Repository
 
 
             var pom1 = a.Id;
-
-            foreach (var file in accomodationStaging.Gallery)
+            if (accomodationStaging.Gallery != null)
             {
-                AccomadationGallery ac = new AccomadationGallery();
-                ac.Url = file.Url;
-                ac.Name = file.Name;
-                ac.IdAccomodationStaging = pom1;
-                //database.AccomadationGallery.Add(ac);
-                await database.AccomadationGallery.AddAsync(ac);
+                foreach (var file in accomodationStaging.Gallery)
+                {
+                    AccomadationGallery ac = new AccomadationGallery();
+                    ac.Url = file.Url;
+                    ac.Name = file.Name;
+                    ac.IdAccomodationStaging = pom1;
+                    //database.AccomadationGallery.Add(ac);
+                    await database.AccomadationGallery.AddAsync(ac);
 
+                }
+
+                await database.SaveChangesAsync();
             }
-
-            await database.SaveChangesAsync();
+           
             //database.SaveChanges();
 
             //foreach(var pom in a.AccomadationGallery)
