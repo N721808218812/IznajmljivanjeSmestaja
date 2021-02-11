@@ -19,5 +19,6 @@ namespace IznajmljivanjeSmestaja.Models.Interfaces
         Task<Accomodation> DetailsAccomodation(int id);
 
         IEnumerable<AspNetUsers> GetAllUsers();
+
     }
 }

@@ -232,5 +232,16 @@ namespace IznajmljivanjeSmestaja.Controllers
             return View();
         }
 
+        public ActionResult Aprove(int id)
+        {
+            AccomodationStaging a = database.AccomodationStaging.Where(p => p.Id == id).FirstOrDefault();
+
+            if (a != null)
+            {
+                _adminRepository.Aprove(a);
+            }
+            return View("ViewAllAccomodation", _adminRepository.getAll());
+        }
+
     }
 }

@@ -76,10 +76,37 @@ namespace IznajmljivanjeSmestaja.Models.Repository
             a.Wifi = accomodationStaging.Wifi;
             a.Title = accomodationStaging.Title;
             a.Guests = accomodationStaging.Guests;
+            a.CoverPhotoUrl = accomodationStaging.CoverPhotoUrl;
+
+            
+
             database.Accomodation.Add(a);
             try
             {
+
+               
                 database.SaveChanges();
+
+                List<AccomadationGallery> ag = database.AccomadationGallery.Where(p => p.IdAccomodationStaging == accomodationStaging.Id).ToList();
+                if (ag != null)
+                {
+                    foreach (var file in ag)
+                    {
+                        AccomadationGallery ac = new AccomadationGallery();
+                        ac.Url = file.Url;
+                        ac.Name = file.Name;
+                        ac.IdAccomodation = a.Id;
+                        //database.AccomadationGallery.Add(ac);
+                        database.AccomadationGallery.Add(ac);
+                        database.AccomadationGallery.Remove(file);
+
+                    }
+                }
+                database.AccomodationStaging.Remove(accomodationStaging);
+                database.SaveChanges();
+
+
+
             }
             catch (Exception ex)
             {
@@ -224,6 +251,7 @@ namespace IznajmljivanjeSmestaja.Models.Repository
                 a.Wifi = accomodationStaging.Wifi;
                 a.Title = accomodationStaging.Title;
                 a.Guests = accomodationStaging.Guests;
+                a.Id = accomodationStaging.Id;
                 accomodationsStaging.Add(a);
             }
             return accomodationsStaging;
