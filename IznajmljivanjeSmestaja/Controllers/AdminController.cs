@@ -116,37 +116,46 @@ namespace IznajmljivanjeSmestaja.Controllers
 
         public async Task<ActionResult> Delete(int id)
         {
-            var getAccomodationdetails = await database.Accomodation.FindAsync(id);
-            var name = getAccomodationdetails.CoverPhotoUrl.Remove(0, 14);
-
-            var path = _webHostEnvironment.WebRootPath + "\\images\\cover\\" + name;
-
-            /* var path = Path.Combine(_webHostEnvironment.WebRootPath, "\\images\\cover", name);*/
-            FileInfo fi = new FileInfo(path);
-            if (fi != null)
+            if (id != null)
             {
-                System.IO.File.Delete(path); fi.Delete();
-            }
-
-
-            List<AccomadationGallery> getAccomodationGallerydetails = database.AccomadationGallery.Where(x => x.IdAccomodation == id).ToList();
-
-            foreach (var pom in getAccomodationGallerydetails)
-            {
-                var name2 = pom.Url.Remove(0, 15);
-                /*  var path2 = Path.Combine(_webHostEnvironment.WebRootPath, "\\images\\gallery", name2);*/
-                var path2 = _webHostEnvironment.WebRootPath + "\\images\\gallery\\" + name2;
-                FileInfo fi2 = new FileInfo(path2);
-                if (fi2 != null)
+                var getAccomodationdetails = await database.Accomodation.FindAsync(id);
+                var name = getAccomodationdetails.CoverPhotoUrl;
+                if (name != null)
                 {
-                    System.IO.File.Delete(path2); fi2.Delete();
+                    name = getAccomodationdetails.CoverPhotoUrl.Remove(0, 14);
                 }
+
+                var path = _webHostEnvironment.WebRootPath + "\\images\\cover\\" + name;
+
+                /* var path = Path.Combine(_webHostEnvironment.WebRootPath, "\\images\\cover", name);*/
+                FileInfo fi = new FileInfo(path);
+                if (fi != null)
+                {
+                    System.IO.File.Delete(path); fi.Delete();
+                }
+
+
+                List<AccomadationGallery> getAccomodationGallerydetails = database.AccomadationGallery.Where(x => x.IdAccomodation == id).ToList();
+
+                foreach (var pom in getAccomodationGallerydetails)
+                {
+                    if (pom != null)
+                    {
+                        var name2 = pom.Url.Remove(0, 15);
+                        /*  var path2 = Path.Combine(_webHostEnvironment.WebRootPath, "\\images\\gallery", name2);*/
+                        var path2 = _webHostEnvironment.WebRootPath + "\\images\\gallery\\" + name2;
+                        FileInfo fi2 = new FileInfo(path2);
+                        if (fi2 != null)
+                        {
+                            System.IO.File.Delete(path2); fi2.Delete();
+                        }
+                    }
+                }
+
+
+                int i = await _adminRepository.Delete(id);
+
             }
-
-
-            int i =await _adminRepository.Delete(id);
-           
-
           
             return RedirectToAction("ViewAllAccomodation");
 
@@ -170,17 +179,21 @@ namespace IznajmljivanjeSmestaja.Controllers
             return View(data);
         }
 
-        public async Task<ActionResult> Edit(int id)
+        public async Task<ActionResult> Edit(int id,bool isSuccess = false)
         {
+            ViewBag.IsSuccess = isSuccess;
+            ViewBag.BookId = id;
             var data = await _adminRepository.DetailsAccomodation(id);
 
             return View(data);
         }
+
         [HttpPost]
         public async Task<IActionResult> Edit(Accomodation accomodation)
         {
             if (ModelState.IsValid)
             {
+
                 if (accomodation.CoverPhoto != null)
                 {
                     string folder = "images/cover/";
@@ -208,15 +221,16 @@ namespace IznajmljivanjeSmestaja.Controllers
 
                 }
 
-                int id = await _adminRepository.Add(accomodation);
+                int id = await _adminRepository.Edit(accomodation);
                 if (id > 0)
                 {
-                    return RedirectToAction(nameof(AddAccomodation), new { isSuccess = true, bookId = id });
+                    return RedirectToAction(nameof(Edit), new { isSuccess = true, bookId = id });
                 }
             }
 
 
             return View();
         }
+
     }
 }
