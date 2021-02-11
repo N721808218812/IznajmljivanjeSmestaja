@@ -69,13 +69,16 @@ namespace IznajmljivanjeSmestaja.Controllers
                         accomodation.Gallery.Add(gallery);
                     }
 
-
-
-                    int id = await _adminRepository.Add(accomodation);
-                    
                     
                 }
+
+                int id = await _adminRepository.Add(accomodation);
+                if (id > 0)
+                {
+                    return RedirectToAction(nameof(AddAccomodation), new { isSuccess = true, bookId = id });
+                }
             }
+          
 
             return View();
         }
@@ -90,6 +93,130 @@ namespace IznajmljivanjeSmestaja.Controllers
             await file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
 
             return "/" + folderPath;
+        }
+
+        public ActionResult ViewAllAccomodation()
+        {
+            return View(_adminRepository.getAll());
+        }
+
+   
+
+        public async Task<ActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("ViewAllAccomodation");
+            }
+            var getcategorydetails = await database.Accomodation.FindAsync(id);
+            return View(getcategorydetails);
+        }
+
+        [HttpPost]
+
+        public async Task<ActionResult> Delete(int id)
+        {
+            var getAccomodationdetails = await database.Accomodation.FindAsync(id);
+            var name = getAccomodationdetails.CoverPhotoUrl.Remove(0, 14);
+
+            var path = _webHostEnvironment.WebRootPath + "\\images\\cover\\" + name;
+
+            /* var path = Path.Combine(_webHostEnvironment.WebRootPath, "\\images\\cover", name);*/
+            FileInfo fi = new FileInfo(path);
+            if (fi != null)
+            {
+                System.IO.File.Delete(path); fi.Delete();
+            }
+
+
+            List<AccomadationGallery> getAccomodationGallerydetails = database.AccomadationGallery.Where(x => x.IdAccomodation == id).ToList();
+
+            foreach (var pom in getAccomodationGallerydetails)
+            {
+                var name2 = pom.Url.Remove(0, 15);
+                /*  var path2 = Path.Combine(_webHostEnvironment.WebRootPath, "\\images\\gallery", name2);*/
+                var path2 = _webHostEnvironment.WebRootPath + "\\images\\gallery\\" + name2;
+                FileInfo fi2 = new FileInfo(path2);
+                if (fi2 != null)
+                {
+                    System.IO.File.Delete(path2); fi2.Delete();
+                }
+            }
+
+
+            int i =await _adminRepository.Delete(id);
+           
+
+          
+            return RedirectToAction("ViewAllAccomodation");
+
+        }
+
+        public ActionResult GetAllUsers()
+        {
+            return View(_adminRepository.GetAllUsers());
+        }
+
+        public ActionResult ViewAllStaggingAccomodation()
+        {
+            return View(_adminRepository.getAllStagging());
+        }
+
+
+        public async Task<ActionResult> Details(int id)
+        {
+            var data = await _adminRepository.DetailsAccomodation(id);
+
+            return View(data);
+        }
+
+        public async Task<ActionResult> Edit(int id)
+        {
+            var data = await _adminRepository.DetailsAccomodation(id);
+
+            return View(data);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(Accomodation accomodation)
+        {
+            if (ModelState.IsValid)
+            {
+                if (accomodation.CoverPhoto != null)
+                {
+                    string folder = "images/cover/";
+                    accomodation.CoverPhotoUrl = await UploadImage(folder, accomodation.CoverPhoto);
+                }
+
+                if (accomodation.GalleryFiles != null)
+                {
+                    string folder = "images/gallery/";
+
+                    accomodation.Gallery = new List<AccomadationGallery>();
+
+                    foreach (var file in accomodation.GalleryFiles)
+                    {
+                        var gallery = new AccomadationGallery()
+                        {
+                            Name = file.FileName,
+                            Url = await UploadImage(folder, file),
+
+
+                        };
+                        accomodation.Gallery.Add(gallery);
+                    }
+
+
+                }
+
+                int id = await _adminRepository.Add(accomodation);
+                if (id > 0)
+                {
+                    return RedirectToAction(nameof(AddAccomodation), new { isSuccess = true, bookId = id });
+                }
+            }
+
+
+            return View();
         }
     }
 }
