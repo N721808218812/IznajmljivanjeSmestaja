@@ -119,7 +119,11 @@ namespace IznajmljivanjeSmestaja.Controllers
             if (id != null)
             {
                 var getAccomodationdetails = await database.Accomodation.FindAsync(id);
-                var name = getAccomodationdetails.CoverPhotoUrl.Remove(0, 14);
+                var name = getAccomodationdetails.CoverPhotoUrl;
+                if (name != null)
+                {
+                    name = getAccomodationdetails.CoverPhotoUrl.Remove(0, 14);
+                }
 
                 var path = _webHostEnvironment.WebRootPath + "\\images\\cover\\" + name;
 
@@ -135,13 +139,16 @@ namespace IznajmljivanjeSmestaja.Controllers
 
                 foreach (var pom in getAccomodationGallerydetails)
                 {
-                    var name2 = pom.Url.Remove(0, 15);
-                    /*  var path2 = Path.Combine(_webHostEnvironment.WebRootPath, "\\images\\gallery", name2);*/
-                    var path2 = _webHostEnvironment.WebRootPath + "\\images\\gallery\\" + name2;
-                    FileInfo fi2 = new FileInfo(path2);
-                    if (fi2 != null)
+                    if (pom != null)
                     {
-                        System.IO.File.Delete(path2); fi2.Delete();
+                        var name2 = pom.Url.Remove(0, 15);
+                        /*  var path2 = Path.Combine(_webHostEnvironment.WebRootPath, "\\images\\gallery", name2);*/
+                        var path2 = _webHostEnvironment.WebRootPath + "\\images\\gallery\\" + name2;
+                        FileInfo fi2 = new FileInfo(path2);
+                        if (fi2 != null)
+                        {
+                            System.IO.File.Delete(path2); fi2.Delete();
+                        }
                     }
                 }
 
