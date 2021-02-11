@@ -7,18 +7,19 @@ namespace IznajmljivanjeSmestaja.Models.Interfaces
 {
     public interface IRegisterRepository
     {
-        void Create(AccomodationStaging accomodationStaging);
-        Accomodation GetBySmestajId(int id);
-        void Edit(Accomodation accomodation);
-        void Delete(Accomodation accomodation);
+        void Create(AccomodationStaging accomodationStaging);//dodaj smestaj
+        Accomodation GetBySmestajId(int id);//pronadji smestaj
+        void Edit(Accomodation accomodation);//izmeni smestaj
+        void Delete(Accomodation accomodation);//obrisi smestaj
 
-        IEnumerable<Accomodation> ViewAll();
+        IEnumerable<Accomodation> ViewAll();//svi smestaji
+        IEnumerable<Reservation> ViewAllReservations();//sve rezervacije
 
-        Reservation GetByReservationId(int id);
-        void Reserve(Reservation reservation,int id);
-        void CancelReservation(Reservation reservation);
+        Reservation GetByReservationId(int id);//pronadji reservaciju
+        void Reserve(Reservation reservation,int id);//rezervisi
+        void CancelReservation(Reservation reservation); //otkazi reservaciju
 
-        IEnumerable<Reservation> GetByUserId(int id); //metoda da korisnik vidi sve svoje rezervacije
+        IEnumerable<Reservation> GetByUserId(string id); //metoda da korisnik vidi sve svoje rezervacije
 
         IEnumerable<Reservation> GetByAccomodation(int id); //korisnik vidi ko mu je rezervisao taj smestaj
 

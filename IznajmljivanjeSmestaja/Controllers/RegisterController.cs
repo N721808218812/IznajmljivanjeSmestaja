@@ -17,6 +17,7 @@ namespace IznajmljivanjeSmestaja.Controllers
         {
             _registerRepository = new RegisterRepository();
         }//constructor
+
         public IActionResult Index()
         {
             return View();
@@ -64,5 +65,55 @@ namespace IznajmljivanjeSmestaja.Controllers
             }else
                 return View(reservation);
         }//reserve
+
+        public IActionResult ViewAllReservations()
+        {
+            return View(_registerRepository.ViewAllReservations());
+        }//viewAllReservations
+
+
+        public IActionResult GetByUserId(string id)
+        {
+            return View(_registerRepository.GetByUserId(id));
+        }//getByUserId
+
+
+        public IActionResult GetByAccomodation(int id)
+        {
+            return View(_registerRepository.GetByAccomodation(id));
+        }//getByUserId
+
+        public IActionResult CancelReservation(int id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("ViewAllReservations");
+            }
+            return View(_registerRepository.GetByReservationId(id));
+        }//getByReservationId
+
+        [HttpPost]
+        public IActionResult CancelReservation(Reservation reservation)
+        {
+            try
+            {
+                _registerRepository.CancelReservation(reservation);
+                 return RedirectToAction("ViewAllReservations");
+            }
+            catch
+            {
+                 return RedirectToAction("ViewAllreservations");
+            }
+        }//getByReservationId
+
+        public IActionResult ViewPreviousReservations(string id)
+        {
+            return View(_registerRepository.GetByUserId(id));
+        }//viewPreviousreservations prethodne rezervacije tog korisnika
+
+        public IActionResult ViewReservations(int id)
+        {
+            return View(_registerRepository.GetByAccomodation(id));
+        }//viewReservations ko je rezervisao taj smestaj
     }
 }
