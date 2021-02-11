@@ -32,7 +32,7 @@ namespace IznajmljivanjeSmestaja.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-CCNFDCI\\SQLEXPRESS;Database=Booking;Integrated Security=True;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-GLLAB3I\\SQLEXPRESS;Database=Booking;Integrated Security=True;");
             }
         }
 
@@ -45,6 +45,7 @@ namespace IznajmljivanjeSmestaja.Models
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.IdAccomodation).HasColumnName("idAccomodation");
+                entity.Property(e => e.IdAccomodationStaging).HasColumnName("idAccomodationStaging");
 
                 entity.Property(e => e.Name)
                     .HasColumnName("name")
@@ -59,6 +60,10 @@ namespace IznajmljivanjeSmestaja.Models
                     .WithMany(p => p.AccomadationGallery)
                     .HasForeignKey(d => d.IdAccomodation)
                     .HasConstraintName("FK_AccomadationGallery_Accomodation");
+                entity.HasOne(d => d.IdAccomodationStagingNavigation)
+                    .WithMany(p => p.AccomadationGallery)
+                    .HasForeignKey(d => d.IdAccomodationStaging)
+                    .HasConstraintName("FK_AccomadationGallery_AccomodationStaging");
             });
 
             modelBuilder.Entity<Accomodation>(entity =>

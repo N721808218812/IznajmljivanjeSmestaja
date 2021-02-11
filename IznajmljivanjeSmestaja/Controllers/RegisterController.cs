@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using IznajmljivanjeSmestaja.Models;
 using IznajmljivanjeSmestaja.Models.Interfaces;
 using IznajmljivanjeSmestaja.Models.Repository;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IznajmljivanjeSmestaja.Controllers
@@ -13,9 +16,11 @@ namespace IznajmljivanjeSmestaja.Controllers
     {
         public BookingContext database = new BookingContext();
         private readonly IRegisterRepository _registerRepository = null;
-        public RegisterController()
+        private readonly IHostingEnvironment _webHostEnvironment = null;
+        public RegisterController(IHostingEnvironment webHostEnvironment)
         {
             _registerRepository = new RegisterRepository();
+            _webHostEnvironment = webHostEnvironment;
         }//constructor
 
         public IActionResult Index()
@@ -115,5 +120,70 @@ namespace IznajmljivanjeSmestaja.Controllers
         {
             return View(_registerRepository.GetByAccomodation(id));
         }//viewReservations ko je rezervisao taj smestaj
-    }
-}
+
+        public async Task<ViewResult> AddAccomodation(bool isSuccess = false, int bookId = 0)
+        {
+            var model = new AccomodationStaging();
+
+            ViewBag.IsSuccess = isSuccess;
+            ViewBag.BookId = bookId;
+            return View(model);
+        }//addAccomodatioStaging
+
+        [HttpPost]
+        public async Task<IActionResult> AddAccomodation(AccomodationStaging accomodationStaging)
+        {
+            if (ModelState.IsValid)
+            {
+                if (accomodationStaging.CoverPhoto != null)
+                {
+                    string folder = "images/cover/";
+                    accomodationStaging.CoverPhotoUrl = await UploadImage(folder, accomodationStaging.CoverPhoto);
+                }
+
+                if (accomodationStaging.GalleryFiles != null)
+                {
+                    string folder = "images/gallery/";
+
+                    accomodationStaging.Gallery = new List<AccomadationGallery>();
+
+                    foreach (var file in accomodationStaging.GalleryFiles)
+                    {
+                        var gallery = new AccomadationGallery()
+                        {
+                            Name = file.FileName,
+                            Url = await UploadImage(folder, file),
+
+
+                        };
+                        accomodationStaging.Gallery.Add(gallery);
+                    }
+
+
+                }
+
+                int id = await _registerRepository.Create(accomodationStaging);
+                if (id > 0)
+                {
+                    return RedirectToAction(nameof(AddAccomodation), new { isSuccess = true, bookId = id });
+                }
+            }
+
+
+            return View();
+        }//addAccomodation
+
+        private async Task<string> UploadImage(string folderPath, IFormFile file)
+        {
+
+            folderPath += Guid.NewGuid().ToString() + "_" + file.FileName;
+
+            string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, folderPath);
+
+            await file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+
+            return "/" + folderPath;
+        }//uploadImage
+
+    }//class
+}//namespace

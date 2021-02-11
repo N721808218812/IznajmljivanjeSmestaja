@@ -7,7 +7,7 @@ namespace IznajmljivanjeSmestaja.Models.Interfaces
 {
     public interface IRegisterRepository
     {
-        void Create(AccomodationStaging accomodationStaging);//dodaj smestaj
+        Task<int> Create(AccomodationStaging accomodationStaging);//dodaj smestaj
         Accomodation GetBySmestajId(int id);//pronadji smestaj
         void Edit(Accomodation accomodation);//izmeni smestaj
         void Delete(Accomodation accomodation);//obrisi smestaj

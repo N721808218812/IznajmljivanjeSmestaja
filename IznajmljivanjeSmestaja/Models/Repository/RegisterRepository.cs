@@ -12,7 +12,7 @@ namespace IznajmljivanjeSmestaja.Models.Repository
         public void CancelReservation(Reservation reservation)
         {
             try
-            {
+            { 
                 Reservation r = database.Reservation.Where(i => i.Id.Equals(reservation.Id)).FirstOrDefault();
                 database.Reservation.Remove(r);
                 database.SaveChanges();
@@ -23,9 +23,51 @@ namespace IznajmljivanjeSmestaja.Models.Repository
             }
         }//cancelReservation
 
-        public void Create(AccomodationStaging accomodationStaging)
+        public async Task<int> Create(AccomodationStaging accomodationStaging)
         {
-            throw new NotImplementedException();
+            AccomodationStaging a = new AccomodationStaging();
+            a.Address = accomodationStaging.Address;
+            a.Amenities = accomodationStaging.Amenities;
+            a.Checkin = accomodationStaging.Checkin;
+            a.Checkout = accomodationStaging.Checkout;
+            a.Description = accomodationStaging.Description;
+            a.Directions = accomodationStaging.Directions;
+            a.Rooms = accomodationStaging.Rooms;
+            a.Wifi = accomodationStaging.Wifi;
+            a.Title = accomodationStaging.Title;
+            a.Guests = accomodationStaging.Guests;
+            a.IdUser = accomodationStaging.IdUser;
+            a.CoverPhotoUrl = accomodationStaging.CoverPhotoUrl;
+
+            a.AccomadationGallery = new List<AccomadationGallery>();
+
+            await database.AccomodationStaging.AddAsync(a);
+            //await database.SaveChangesAsync();
+
+
+            var pom1 = a.Id;
+
+            foreach (var file in accomodationStaging.Gallery)
+            {
+                AccomadationGallery ac = new AccomadationGallery();
+                ac.Url = file.Url;
+                ac.Name = file.Name;
+                ac.IdAccomodationStaging = pom1;
+                //database.AccomadationGallery.Add(ac);
+                await database.AccomadationGallery.AddAsync(ac);
+
+            }
+
+            await database.SaveChangesAsync();
+            //database.SaveChanges();
+
+            //foreach(var pom in a.AccomadationGallery)
+            //{
+            //    database.AccomadationGallery.Add(pom);
+            ////}
+
+
+            return a.Id;
         }//create
 
         public void Delete(Accomodation accomodation)

@@ -11,7 +11,12 @@ namespace IznajmljivanjeSmestaja.Models
         public string Url { get; set; }
         public string Name { get; set; }
 
+        public int? IdAccomodationStaging { get; set; }
+
         public virtual Accomodation IdAccomodationNavigation { get; set; }
+        
+        public virtual AccomodationStaging IdAccomodationStagingNavigation { get; set; }
         public Accomodation accomodation;
+        public AccomodationStaging accomodationStaging;
     }
 }
