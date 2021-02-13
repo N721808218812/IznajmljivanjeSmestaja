@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using IznajmljivanjeSmestaja.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace IznajmljivanjeSmestaja
 {
@@ -43,6 +45,27 @@ namespace IznajmljivanjeSmestaja
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddLocalization(opts => opts.ResourcesPath = "Resources"); //dodato
+
+            //dodato
+            services.AddMvc().AddDataAnnotationsLocalization(opts =>
+            {
+                opts.DataAnnotationLocalizerProvider = (type, factory) =>
+               factory.Create(typeof(Resource));
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            //dodato
+            services.Configure<RequestLocalizationOptions>(opts =>
+            {
+                var supported = new List<CultureInfo>
+                {
+                    new CultureInfo("en"),
+                    new CultureInfo("sr")
+                };
+                opts.DefaultRequestCulture = new RequestCulture("sr");
+                opts.SupportedCultures = supported;
+                opts.SupportedUICultures = supported;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,7 +86,7 @@ namespace IznajmljivanjeSmestaja
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseRequestLocalization(); //dodato
             app.UseAuthentication();
 
             app.UseMvc(routes =>

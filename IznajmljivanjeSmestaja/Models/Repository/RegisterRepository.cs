@@ -77,14 +77,69 @@ namespace IznajmljivanjeSmestaja.Models.Repository
             return a.Id;
         }//create
 
-        public void Delete(Accomodation accomodation)
+        public async Task<int> Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var getAccomodationdetails = await database.Accomodation.FindAsync(id);
+                List<AccomadationGallery> accomadationGallery = database.AccomadationGallery.Where(x => x.IdAccomodation == getAccomodationdetails.Id).ToList();
+                List<Reservation> reservation = database.Reservation.Where(x => x.IdAccomodation == getAccomodationdetails.Id).ToList();
+
+                if (accomadationGallery != null)
+                {
+                    foreach (var pom in accomadationGallery)
+                        database.AccomadationGallery.Remove(pom);
+
+                }
+                if (reservation != null)
+                {
+                    foreach (var pom in reservation)
+                        database.Reservation.Remove(pom);
+                }
+                database.Accomodation.Remove(getAccomodationdetails);
+                database.SaveChanges();
+                await database.SaveChangesAsync();
+                int i = 1;
+
+                return i;
+            }
+            catch (Exception ex)
+            {
+                int i = 0;
+                Console.WriteLine(ex);
+                return i;
+            }
         }//delete
 
-        public void Edit(Accomodation accomodation)
+        public async Task<Accomodation> DetailsAccomodation(int id)
         {
-            var a = database.Accomodation.SingleOrDefault(ac => ac.Id == accomodation.Id);
+            Accomodation accomodation = database.Accomodation.Where(x => x.Id == id).FirstOrDefault();
+            List<AccomadationGallery> g = database.AccomadationGallery.Where(x => x.IdAccomodation == id).ToList();
+            Accomodation a = new Accomodation()
+            {
+                Address = accomodation.Address,
+                Amenities = accomodation.Amenities,
+                Checkin = accomodation.Checkin,
+                Checkout = accomodation.Checkout,
+                Description = accomodation.Description,
+                Directions = accomodation.Directions,
+                Rooms = accomodation.Rooms,
+                Wifi = accomodation.Wifi,
+                Title = accomodation.Title,
+                Guests = accomodation.Guests,
+                CoverPhotoUrl = accomodation.CoverPhotoUrl,
+                IdUser = accomodation.IdUser,
+                Gallery = g
+
+
+            };
+
+            return a;
+        }
+
+        public async Task<int> Edit(Accomodation accomodation)
+        {
+            Accomodation a = database.Accomodation.Where(p => p.Id == accomodation.Id).FirstOrDefault();
             a.Address = accomodation.Address;
             a.Amenities = accomodation.Amenities;
             a.Checkin = accomodation.Checkin;
@@ -95,15 +150,61 @@ namespace IznajmljivanjeSmestaja.Models.Repository
             a.Wifi = accomodation.Wifi;
             a.Title = accomodation.Title;
             a.Guests = accomodation.Guests;
+            a.IdUser = accomodation.IdUser;
+            if (accomodation.CoverPhotoUrl != null)
+            {
+                a.CoverPhotoUrl = accomodation.CoverPhotoUrl;
+            }
 
-            try
+            await database.SaveChangesAsync();
+
+
+            if (accomodation.Gallery != null)
             {
+                a.AccomadationGallery = new List<AccomadationGallery>();
+
+
+
+                //await database.SaveChangesAsync();
+
+
+                var pom1 = a.Id;
+
+                List<AccomadationGallery> lista = database.AccomadationGallery.Where(pa => pa.IdAccomodation == pom1).ToList();
+                foreach (var l in lista)
+                {
+                    database.AccomadationGallery.Remove(l);
+                }
+
                 database.SaveChanges();
+
+
+
+                foreach (var file in accomodation.Gallery)
+                {
+                    AccomadationGallery ac = new AccomadationGallery();
+
+                    ac.Url = file.Url;
+                    ac.Name = file.Name;
+                    ac.IdAccomodation = pom1;
+                    //database.AccomadationGallery.Add(ac);
+                    await database.AccomadationGallery.AddAsync(ac);
+
+                }
+
+                await database.SaveChangesAsync();
+
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+
+            //database.SaveChanges();
+
+            //foreach(var pom in a.AccomadationGallery)
+            //{
+            //    database.AccomadationGallery.Add(pom);
+            ////}
+
+
+            return a.Id;
         }//edit
 
         public IEnumerable<Reservation> GetByAccomodation(int id)

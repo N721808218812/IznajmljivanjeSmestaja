@@ -9,8 +9,8 @@ namespace IznajmljivanjeSmestaja.Models.Interfaces
     {
         Task<int> Create(AccomodationStaging accomodationStaging);//dodaj smestaj
         Accomodation GetBySmestajId(int id);//pronadji smestaj
-        void Edit(Accomodation accomodation);//izmeni smestaj
-        void Delete(Accomodation accomodation);//obrisi smestaj
+        Task<int> Edit(Accomodation accomodation);//izmeni smestaj
+        Task<int> Delete(int id);//obrisi smestaj
 
         IEnumerable<Accomodation> ViewAll();//svi smestaji
         IEnumerable<Reservation> ViewAllReservations();//sve rezervacije
@@ -22,6 +22,8 @@ namespace IznajmljivanjeSmestaja.Models.Interfaces
         IEnumerable<Reservation> GetByUserId(string id); //metoda da korisnik vidi sve svoje rezervacije
 
         IEnumerable<Reservation> GetByAccomodation(int id); //korisnik vidi ko mu je rezervisao taj smestaj
+
+        Task<Accomodation> DetailsAccomodation(int id);
 
 
 

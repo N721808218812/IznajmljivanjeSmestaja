@@ -33,25 +33,57 @@ namespace IznajmljivanjeSmestaja.Controllers
             return View(_registerRepository.ViewAll());
         }//viewAll
 
-        public IActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int id, bool isSuccess = false)
         {
-            if (id == null)
-            {
-                return RedirectToAction("ViewAll");
-            }
-            return View(database.Accomodation.Where(a => a.Id == id).FirstOrDefault());
+            ViewBag.IsSuccess = isSuccess;
+            ViewBag.BookId = id;
+            var data = await _registerRepository.DetailsAccomodation(id);
+
+            return View(data);
         }//edit
 
         [HttpPost]
-        public IActionResult Edit(Accomodation accomodation)
+        public async Task<ActionResult> Edit(Accomodation accomodation)
         {
             if (ModelState.IsValid)
             {
-               _registerRepository.Edit(accomodation);
-                return View();
+
+                if (accomodation.CoverPhoto != null)
+                {
+                    string folder = "images/cover/";
+                    accomodation.CoverPhotoUrl = await UploadImage(folder, accomodation.CoverPhoto);
+                }
+
+                if (accomodation.GalleryFiles != null)
+                {
+                    string folder = "images/gallery/";
+
+                    accomodation.Gallery = new List<AccomadationGallery>();
+
+                    foreach (var file in accomodation.GalleryFiles)
+                    {
+                        var gallery = new AccomadationGallery()
+                        {
+                            Name = file.FileName,
+                            Url = await UploadImage(folder, file),
+
+
+                        };
+                        accomodation.Gallery.Add(gallery);
+                    }
+
+
+                }
+
+                int id = await _registerRepository.Edit(accomodation);
+                if (id > 0)
+                {
+                    return RedirectToAction(nameof(Edit), new { isSuccess = true, bookId = id });
+                }
             }
-            else
-                return View(accomodation);
+
+
+            return View();
         }//edit
 
         public IActionResult Reserve()
@@ -184,6 +216,65 @@ namespace IznajmljivanjeSmestaja.Controllers
 
             return "/" + folderPath;
         }//uploadImage
+
+        public async Task<ActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("ViewAll");
+            }
+            var getcategorydetails = await database.Accomodation.FindAsync(id);
+            return View(getcategorydetails);
+        }//delete
+
+        [HttpPost]
+
+        public async Task<ActionResult> Delete(int id)
+        {
+            if (id != null)
+            {
+                var getAccomodationdetails = await database.Accomodation.FindAsync(id);
+                var name = getAccomodationdetails.CoverPhotoUrl;
+                if (name != null)
+                {
+                    name = getAccomodationdetails.CoverPhotoUrl.Remove(0, 14);
+                }
+
+                var path = _webHostEnvironment.WebRootPath + "\\images\\cover\\" + name;
+
+                /* var path = Path.Combine(_webHostEnvironment.WebRootPath, "\\images\\cover", name);*/
+                FileInfo fi = new FileInfo(path);
+                if (fi != null)
+                {
+                    System.IO.File.Delete(path); fi.Delete();
+                }
+
+
+                List<AccomadationGallery> getAccomodationGallerydetails = database.AccomadationGallery.Where(x => x.IdAccomodation == id).ToList();
+
+                foreach (var pom in getAccomodationGallerydetails)
+                {
+                    if (pom != null)
+                    {
+                        var name2 = pom.Url.Remove(0, 15);
+                        /*  var path2 = Path.Combine(_webHostEnvironment.WebRootPath, "\\images\\gallery", name2);*/
+                        var path2 = _webHostEnvironment.WebRootPath + "\\images\\gallery\\" + name2;
+                        FileInfo fi2 = new FileInfo(path2);
+                        if (fi2 != null)
+                        {
+                            System.IO.File.Delete(path2); fi2.Delete();
+                        }
+                    }
+                }
+
+
+                int i = await _registerRepository.Delete(id);
+
+            }
+
+            return RedirectToAction("ViewAll");
+
+        }
 
     }//class
 }//namespace

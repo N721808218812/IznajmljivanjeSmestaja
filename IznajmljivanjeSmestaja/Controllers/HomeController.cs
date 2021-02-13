@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using IznajmljivanjeSmestaja.Models;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Http;
 
 namespace IznajmljivanjeSmestaja.Controllers
 {
@@ -25,5 +27,15 @@ namespace IznajmljivanjeSmestaja.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult SetCulture(string culture, string sourceUrl)
+        {
+            Response.Cookies.Append(
+            CookieRequestCultureProvider.DefaultCookieName,
+            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+            new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+            return Redirect(sourceUrl);
+        }//setCulture
     }
 }
