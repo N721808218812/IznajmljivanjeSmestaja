@@ -79,9 +79,9 @@ namespace IznajmljivanjeSmestaja.Controllers
                     return RedirectToAction(nameof(AddAccomodation), new { isSuccess = true, bookId = id });
                 }
             }
-          
 
-            return View();
+            ViewBag.Users = _adminRepository.GetAllUsers();
+            return View(accomodation);
         }
 
         private async Task<string> UploadImage(string folderPath, IFormFile file)

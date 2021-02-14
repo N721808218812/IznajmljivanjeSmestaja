@@ -1,13 +1,14 @@
 ﻿@model IEnumerable<IznajmljivanjeSmestaja.Models.Accomodation>
-
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<Resource> localizer
 @{
     ViewData["Title"] = "ViewAllAccomodation";
 }
 
-<h1>ViewAllAccomodation</h1>
+<h1>@localizer["smestaj"]</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="AddAccomodation">@localizer["dodajSmestaj"]</a>
 </p>
 <table class="table">
     <thead>
@@ -55,54 +56,55 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rooms)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Guests)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amenities)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Directions)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Checkin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Checkout)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Wifi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdUser)
-            </td>
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rooms)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Guests)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amenities)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Directions)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Checkin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Checkout)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Wifi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdUser)
+                </td>
+                <td>
 
-                <img src="../@item.CoverPhotoUrl" width="289" height="194" alt="@item.CoverPhotoUrl" />
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new {  id=item.Id })
-            </td>
-        </tr>
-}
+                    <img src="../@item.CoverPhotoUrl" width="289" height="194" alt="@item.CoverPhotoUrl" />
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

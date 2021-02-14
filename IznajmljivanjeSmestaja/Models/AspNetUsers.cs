@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace IznajmljivanjeSmestaja.Models
 {
@@ -15,8 +16,9 @@ namespace IznajmljivanjeSmestaja.Models
             AspNetUserTokens = new HashSet<AspNetUserTokens>();
             Reservation = new HashSet<Reservation>();
         }
-
+        [Key]
         public string Id { get; set; }
+        [Required]
         public string UserName { get; set; }
         public string NormalizedUserName { get; set; }
         public string Email { get; set; }

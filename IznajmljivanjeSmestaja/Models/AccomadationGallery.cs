@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IznajmljivanjeSmestaja.Models
 {
     public partial class AccomadationGallery
     {
+        [Key]
         public int Id { get; set; }
         public int? IdAccomodation { get; set; }
+        [Required]
         public string Url { get; set; }
+        [Required]
         public string Name { get; set; }
 
         public int? IdAccomodationStaging { get; set; }

@@ -117,7 +117,94 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Amenities" xml:space="preserve">
+    <value>Amenities</value>
+  </data>
+  <data name="BacktoList" xml:space="preserve">
+    <value>Back to List</value>
+  </data>
+  <data name="BrisanjeSigurno" xml:space="preserve">
+    <value>Are you sure you want to delete this?</value>
+  </data>
+  <data name="cestitam" xml:space="preserve">
+    <value>Congratulations</value>
+  </data>
+  <data name="Checkin" xml:space="preserve">
+    <value>Checkin</value>
+  </data>
+  <data name="Checkout" xml:space="preserve">
+    <value>Checkout</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="detalj" xml:space="preserve">
+    <value>for details</value>
+  </data>
+  <data name="detalji" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Directions" xml:space="preserve">
+    <value>Directions</value>
+  </data>
+  <data name="dodajSmestaj" xml:space="preserve">
+    <value>Add new accomodation</value>
+  </data>
+  <data name="dodajStan" xml:space="preserve">
+    <value>Add accomodation</value>
+  </data>
+  <data name="GetAllUsers" xml:space="preserve">
+    <value>All users</value>
+  </data>
+  <data name="klik" xml:space="preserve">
+    <value>Click</value>
+  </data>
+  <data name="ovde" xml:space="preserve">
+    <value>here</value>
+  </data>
   <data name="pocetna" xml:space="preserve">
     <value>Home</value>
+  </data>
+  <data name="privremeniSmestaj" xml:space="preserve">
+    <value>Accomodation stagging</value>
+  </data>
+  <data name="Rooms" xml:space="preserve">
+    <value>Rooms</value>
+  </data>
+  <data name="smestaj" xml:space="preserve">
+    <value>Accomodation</value>
+  </data>
+  <data name="uspesno" xml:space="preserve">
+    <value>you have successfully entered a new accommodation unit.</value>
+  </data>
+  <data name="uspesnoEdit" xml:space="preserve">
+    <value>you have successfully change a new accommodation unit.</value>
+  </data>
+  <data name="Wifi" xml:space="preserve">
+    <value>Wifi</value>
+  </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Hello</value>
+  </data>
+  <data name="IznajmljivanjeSmestaja" xml:space="preserve">
+    <value>Accommodation for rent</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
   </data>
 </root>

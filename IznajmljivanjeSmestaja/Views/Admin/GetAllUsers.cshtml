@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<IznajmljivanjeSmestaja.Models.AspNetUsers>
-
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<Resource> localizer
 @{
     ViewData["Title"] = "GetAllUsers";
 }
 
-<h1>GetAllUsers</h1>
+<h1>@localizer["GetAllUsers"]</h1>
 
 
 <table class="table">
@@ -16,38 +17,39 @@
             <th>
                 @Html.DisplayNameFor(model => model.UserName)
             </th>
-          
+
             <th>
                 @Html.DisplayNameFor(model => model.Email)
             </th>
-           
+
             <th>
                 @Html.DisplayNameFor(model => model.PhoneNumber)
             </th>
-  
+
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-          
-           
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-      
-           
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+
+
+            </tr>
+        }
     </tbody>
 </table>

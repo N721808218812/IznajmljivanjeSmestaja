@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace IznajmljivanjeSmestaja.Models
 {
     public partial class Reservation
     {
+        [Key]
         public int Id { get; set; }
         public DateTime DateCheckin { get; set; }
         public DateTime DateCheckout { get; set; }

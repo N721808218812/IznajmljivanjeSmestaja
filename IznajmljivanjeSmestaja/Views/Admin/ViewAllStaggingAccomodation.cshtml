@@ -1,14 +1,13 @@
 ﻿@model IEnumerable<IznajmljivanjeSmestaja.Models.AccomodationStaging>
-
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<Resource> localizer
 @{
     ViewData["Title"] = "ViewAllStaggingAccomodation";
 }
 
-<h1>ViewAllStaggingAccomodation</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
+<h1>@localizer["privremeniSmestaj"]</h1>
 <table class="table">
     <thead>
         <tr>
@@ -55,53 +54,54 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rooms)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Guests)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amenities)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Directions)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Checkin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Checkout)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Wifi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdUser)
-            </td>
-            <td>
-                <img src="../@item.CoverPhotoUrl" width="289" height="194" alt="@item.CoverPhotoUrl" />
-            </td>
-            <td>
-              
-                @Html.ActionLink("Aprove", "Aprove", new { id=item.Id }) 
-               
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rooms)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Guests)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amenities)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Directions)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Checkin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Checkout)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Wifi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdUser)
+                </td>
+                <td>
+                    <img src="../@item.CoverPhotoUrl" width="289" height="194" alt="@item.CoverPhotoUrl" />
+                </td>
+                <td>
+
+                    @Html.ActionLink("Aprove", "Aprove", new { id = item.Id })
+
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
