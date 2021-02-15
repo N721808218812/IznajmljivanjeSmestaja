@@ -9,6 +9,7 @@ using IznajmljivanjeSmestaja.Models.Repository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace IznajmljivanjeSmestaja.Controllers
 {
@@ -46,37 +47,48 @@ namespace IznajmljivanjeSmestaja.Controllers
        {
             if (ModelState.IsValid)
             {
-                if (accomodation.CoverPhoto != null)
+                if (accomodation.IdUser != null)
+
                 {
-                    string folder = "images/cover/";
-                    accomodation.CoverPhotoUrl = await UploadImage(folder, accomodation.CoverPhoto);
-                }
 
-                if (accomodation.GalleryFiles != null)
-                {
-                    string folder = "images/gallery/";
 
-                    accomodation.Gallery = new List<AccomadationGallery>();
-
-                    foreach (var file in accomodation.GalleryFiles)
+                    if (accomodation.CoverPhoto != null)
                     {
-                        var gallery = new AccomadationGallery()
-                        {
-                            Name = file.FileName,
-                            Url = await UploadImage(folder, file),
-                            
-                        
-                        };
-                        accomodation.Gallery.Add(gallery);
+                        string folder = "images/cover/";
+                        accomodation.CoverPhotoUrl = await UploadImage(folder, accomodation.CoverPhoto);
                     }
 
-                    
-                }
+                    if (accomodation.GalleryFiles != null)
+                    {
+                        string folder = "images/gallery/";
 
-                int id = await _adminRepository.Add(accomodation);
-                if (id > 0)
+                        accomodation.Gallery = new List<AccomadationGallery>();
+
+                        foreach (var file in accomodation.GalleryFiles)
+                        {
+                            var gallery = new AccomadationGallery()
+                            {
+                                Name = file.FileName,
+                                Url = await UploadImage(folder, file),
+
+
+                            };
+                            accomodation.Gallery.Add(gallery);
+                        }
+
+
+                    }
+
+                    int id = await _adminRepository.Add(accomodation);
+                    if (id > 0)
+                    {
+                        return RedirectToAction(nameof(AddAccomodation), new { isSuccess = true, bookId = id });
+                    }
+                }
+                else
                 {
-                    return RedirectToAction(nameof(AddAccomodation), new { isSuccess = true, bookId = id });
+                    ViewBag.Users = _adminRepository.GetAllUsers();
+                    return View(accomodation);
                 }
             }
 
@@ -119,39 +131,46 @@ namespace IznajmljivanjeSmestaja.Controllers
         {
             if (id != null)
             {
-                var getAccomodationdetails = await database.Accomodation.FindAsync(id);
-                var name = getAccomodationdetails.CoverPhotoUrl;
-                if (name != null)
-                {
-                    name = getAccomodationdetails.CoverPhotoUrl.Remove(0, 14);
-                }
+                //    var getAccomodationdetails = await database.Accomodation.FindAsync(id);
+                //    var name = getAccomodationdetails.CoverPhotoUrl;
+                //    if (name != null)
+                //    {
+                //        name = getAccomodationdetails.CoverPhotoUrl.Remove(0, 14);
+                //    }
 
-                var path = _webHostEnvironment.WebRootPath + "\\images\\cover\\" + name;
+                //    var path = _webHostEnvironment.WebRootPath + "\\images\\cover\\" + name;
 
-                /* var path = Path.Combine(_webHostEnvironment.WebRootPath, "\\images\\cover", name);*/
-                FileInfo fi = new FileInfo(path);
-                if (fi != null)
-                {
-                    System.IO.File.Delete(path); fi.Delete();
-                }
+                //    /* var path = Path.Combine(_webHostEnvironment.WebRootPath, "\\images\\cover", name);*/
+                //    FileInfo fi = new FileInfo(path);
+                //    if (fi != null)
+                //    {
+                //        System.IO.File.Delete(path); fi.Delete();
+                //    }
 
 
-                List<AccomadationGallery> getAccomodationGallerydetails = database.AccomadationGallery.Where(x => x.IdAccomodation == id).ToList();
+                //    List<AccomadationGallery> getAccomodationGallerydetails = database.AccomadationGallery.Where(x => x.IdAccomodation == id).ToList();
 
-                foreach (var pom in getAccomodationGallerydetails)
-                {
-                    if (pom != null)
-                    {
-                        var name2 = pom.Url.Remove(0, 15);
-                        /*  var path2 = Path.Combine(_webHostEnvironment.WebRootPath, "\\images\\gallery", name2);*/
-                        var path2 = _webHostEnvironment.WebRootPath + "\\images\\gallery\\" + name2;
-                        FileInfo fi2 = new FileInfo(path2);
-                        if (fi2 != null)
-                        {
-                            System.IO.File.Delete(path2); fi2.Delete();
-                        }
-                    }
-                }
+                //    foreach (var pom in getAccomodationGallerydetails)
+                //    {
+                //        if (pom != null)
+                //        {
+                //            var name2 = pom.Url.Remove(0, 15);
+                //            /*  var path2 = Path.Combine(_webHostEnvironment.WebRootPath, "\\images\\gallery", name2);*/
+                //            var path2 = _webHostEnvironment.WebRootPath + "\\images\\gallery\\" + name2;
+                //            FileInfo fi2 = new FileInfo(path2);
+                //            string p= "fi2";
+                //        if (fi2 != null)
+                //            {
+                //                using (FileStream stream = new FileStream(p, FileMode.Open, FileAccess.Read))
+                //                {
+
+                //                    pictureBox1.Image = Image.FromStream(stream);
+                //                    stream.Dispose();
+                //                    System.IO.File.Delete(path2);
+                //                 fi2.Delete(); }
+                //            }
+                //        }
+                //    }
 
 
                 int i = await _adminRepository.Delete(id);
@@ -244,5 +263,9 @@ namespace IznajmljivanjeSmestaja.Controllers
             return View("ViewAllAccomodation", _adminRepository.getAll());
         }
 
+        public ActionResult Choose()
+        {
+            return View(_adminRepository.getAll());
+        }
     }
 }

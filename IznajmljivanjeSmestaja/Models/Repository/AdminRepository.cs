@@ -14,6 +14,7 @@ namespace IznajmljivanjeSmestaja.Models.Repository
         public BookingContext database = new BookingContext();
         public async Task<int> Add(Accomodation accomodation)
         {
+            
             Accomodation a = new Accomodation();
             a.Address = accomodation.Address;
             a.Amenities = accomodation.Amenities;

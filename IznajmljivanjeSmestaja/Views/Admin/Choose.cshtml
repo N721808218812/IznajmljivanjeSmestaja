@@ -1,0 +1,151 @@
+﻿@model IEnumerable<IznajmljivanjeSmestaja.Models.Accomodation>
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<Resource> localizer
+@{
+    ViewData["Title"] = "ViewAllAccomodation";
+}
+
+<h1>@localizer["smestaj"]</h1>
+
+
+<!DOCTYPE html>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="//code.angularjs.org/1.8.0/angular.min.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+    <form>
+        @localizer["PickATopic"]
+        <input type="radio" ng-model="myVar" value="Rooms"> @localizer["Rooms"]
+        <input type="radio" ng-model="myVar" value="Guests">@localizer["Guests"]
+        <input type="radio" ng-model="myVar" value="Address">@localizer["Address"]
+        <input type="radio" ng-model="myVar" value="Amenities">@localizer["Amenities"]
+        <input type="radio" ng-model="myVar" value="Checkin">@localizer["Checkin"]
+        <input type="radio" ng-model="myVar" value="Checkout">@localizer["Checkout"]
+    </form>
+
+    <div ng-switch="myVar">
+        <div ng-switch-when="Rooms">
+
+            <table class="table" style="width:600px">
+                <thead>
+                    <tr>
+                        <th>Rooms</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="x in records">
+                        <td>{{x.Rooms}}</td>
+                        <td>  <a href="/Admin/Details/{{x.Id}}">Details</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+        </div>
+        <div ng-switch-when="Guests">
+            <table class="table" style="width:600px">
+                <thead>
+                    <tr>
+                        <th>Guests</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="x in records">
+                        <td>{{x.Guests}}</td>
+                        <td>  <a href="/Admin/Details/{{x.Id}}">Details</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div ng-switch-when="Address">
+            <table class="table" style="width:600px">
+                <thead>
+                    <tr>
+                        <th>Address</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="x in records">
+                        <td>{{x.Address}}</td>
+                        <td>  <a href="/Admin/Details/{{x.Id}}">Details</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div ng-switch-when="Amenities">
+            <table class="table" style="width:600px">
+                <thead>
+                    <tr>
+                        <th>Amenities</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="x in records">
+                        <td>{{x.Amenities}}</td>
+                        <td>  <a href="/Admin/Details/{{x.Id}}">Details</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div ng-switch-when="Checkin">
+            <table class="table" style="width:600px">
+                <thead>
+                    <tr>
+                        <th>Checkin</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="x in records">
+                        <td>{{x.Checkin}}</td>
+                        <td>  <a href="/Admin/Details/{{x.Id}}">Details</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div ng-switch-when="Checkout">
+            <table class="table" style="width:600px">
+                <thead>
+                    <tr>
+                        <th>Checkout</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="x in records">
+                        <td>{{x.Checkout}}</td>
+                        <td>  <a href="/Admin/Details/{{x.Id}}">Details</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+ 
+
+
+            <script>
+        var app = angular.module("myApp", []);
+        app.controller("myCtrl", function ($scope) {
+            $scope.records = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model));
+        });
+            </script>
+</body>
+
+
+
+
+
+
+
+
+
+

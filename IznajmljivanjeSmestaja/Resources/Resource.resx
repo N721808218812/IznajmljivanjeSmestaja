@@ -210,4 +210,25 @@
   <data name="pretrazi" xml:space="preserve">
     <value>Pretraži smeštaj</value>
   </data>
+  <data name="unos" xml:space="preserve">
+    <value>Uneli ste:</value>
+  </data>
+  <data name="BrojGostiju" xml:space="preserve">
+    <value>Broj gostiju</value>
+  </data>
+  <data name="BrojSoba" xml:space="preserve">
+    <value>Broj soba:</value>
+  </data>
+  <data name="Opis" xml:space="preserve">
+    <value>Opis smeštaja:</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Naslov:</value>
+  </data>
+  <data name="PickATopic" xml:space="preserve">
+    <value>Izaberi kategoriju</value>
+  </data>
+  <data name="Guests" xml:space="preserve">
+    <value>Gosti</value>
+  </data>
 </root>
