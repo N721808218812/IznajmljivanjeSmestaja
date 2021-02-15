@@ -207,4 +207,7 @@
   <data name="Register" xml:space="preserve">
     <value>Register</value>
   </data>
+  <data name="pretrazi" xml:space="preserve">
+    <value>Search accomodation</value>
+  </data>
 </root>

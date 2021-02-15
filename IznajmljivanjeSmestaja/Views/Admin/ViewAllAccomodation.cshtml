@@ -10,7 +10,11 @@
 <p>
     <a asp-action="AddAccomodation">@localizer["dodajSmestaj"]</a>
 </p>
-
+<div class="navbar-brand">
+    <span class="input-group-btn">
+        <input type="text" name="" ng-model="search_query" class="form-control" placeholder="@localizer["pretrazi"]">
+    </span>
+</div>
 
 <!DOCTYPE html>
 
@@ -41,7 +45,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="x in records">
+            <tr ng-repeat="x in records|filter:search_query">
                 <td> {{x.Id}}</td>
                 <td> {{x.Rooms}}</td>
                 <td> {{x.Guests}}</td>

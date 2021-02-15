@@ -207,4 +207,7 @@
   <data name="Register" xml:space="preserve">
     <value>Registracija</value>
   </data>
+  <data name="pretrazi" xml:space="preserve">
+    <value>Pretraži smeštaj</value>
+  </data>
 </root>
