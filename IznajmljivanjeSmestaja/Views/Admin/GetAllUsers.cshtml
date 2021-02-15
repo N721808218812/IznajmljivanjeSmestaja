@@ -1,55 +1,59 @@
 ﻿@model IEnumerable<IznajmljivanjeSmestaja.Models.AspNetUsers>
 @using Microsoft.Extensions.Localization
+@using System.Text.Json;
+@using System.Text.Json.Serialization
 @inject IStringLocalizer<Resource> localizer
 @{
     ViewData["Title"] = "GetAllUsers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
 <h1>@localizer["GetAllUsers"]</h1>
 
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserName)
-            </th>
+<!DOCTYPE html>
 
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="//code.angularjs.org/1.8.0/angular.min.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
 
-            <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
-            </th>
+    
+        <table class="table" style="width:600px">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="x in records">
+            <td> {{x.Id}}</td>
+            <td> {{x.UserName}}</td>
+            <td> {{x.Email}}</td>
+            <td> {{x.PhoneNumber}}</td>
 
         </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                </td>
+            </tbody>
+        </table>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
+     
 
+    
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
-                </td>
+    <script>
+        var app = angular.module("myApp", []);
+        app.controller("myCtrl", function ($scope) {
+            $scope.records = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model));
+        });
+    </script>
+</body>
+</html>
 
 
-            </tr>
-        }
-    </tbody>
-</table>
