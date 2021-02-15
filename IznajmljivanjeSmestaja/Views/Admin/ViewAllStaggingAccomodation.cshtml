@@ -8,100 +8,71 @@
 
 
 <h1>@localizer["privremeniSmestaj"]</h1>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rooms)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Guests)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amenities)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Directions)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Checkin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Checkout)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Wifi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CoverPhotoUrl)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="//code.angularjs.org/1.8.0/angular.min.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+
+
+    <table class="table" style="width:600px">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Rooms)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Guests)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Amenities)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Directions)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Checkin)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Checkout)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Wifi)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdUser)
-                </td>
-                <td>
-                    <img src="../@item.CoverPhotoUrl" width="289" height="194" alt="@item.CoverPhotoUrl" />
-                </td>
-                <td>
-
-                    @Html.ActionLink("Aprove", "Aprove", new { id = item.Id })
-
-                </td>
+                <th>ID</th>
+                <th>Rooms</th>
+                <th>Guests</th>
+                <th>Title</th>
+                <th>Address</th>
+                <th>Description</th>
+                <th>Amenities</th>
+                <th>Directions</th>
+                <th>Checkin</th>
+                <th>Checkout</th>
+                <th>IdUser</th>
+                <th>CoverPhotoUrl</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            <tr ng-repeat="x in records|filter:search_query">
+                <td> {{x.Id}}</td>
+                <td> {{x.Rooms}}</td>
+                <td> {{x.Guests}}</td>
+                <td> {{x.Title}}</td>
+                <td>{{x.Address}}</td>
+                <td> {{x.Description}}</td>
+                <td> {{x.Amenities}}</td>
+                <td> {{x.Directions}}</td>
+                <td> {{x.Checkin}}</td>
+                <td> {{x.Checkout}}</td>
+                <td> {{x.IdUser}}</td>
+                <td>   <img src="../{{x.CoverPhotoUrl}}" width="289" height="194" alt="{{x.CoverPhotoUrl}}" /></td>
+
+                <td>
+                    <a href="/Admin/Aprove/{{x.Id}}">Aprove</a>
+                  
+                </td>
+
+
+            </tr>
+        </tbody>
+    </table>
+
+
+
+
+
+    <script>
+        var app = angular.module("myApp", []);
+        app.controller("myCtrl", function ($scope) {
+            $scope.records = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model));
+        });
+    </script>
+</body>
+
+
