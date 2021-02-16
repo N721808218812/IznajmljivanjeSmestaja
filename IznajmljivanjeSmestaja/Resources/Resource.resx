@@ -273,4 +273,19 @@
   <data name="uspesnaRezervacija" xml:space="preserve">
     <value>Čestitamo, uspešno ste rezervisali stan!</value>
   </data>
+  <data name="allUsers" xml:space="preserve">
+    <value>Korisnici</value>
+  </data>
+  <data name="choose" xml:space="preserve">
+    <value>Pretraga</value>
+  </data>
+  <data name="smestajStaging" xml:space="preserve">
+    <value>Odobri smeštaj</value>
+  </data>
+  <data name="previousReservations" xml:space="preserve">
+    <value>Moje rezervacije</value>
+  </data>
+  <data name="reservations" xml:space="preserve">
+    <value>Rezervacije</value>
+  </data>
 </root>

@@ -260,7 +260,7 @@ namespace IznajmljivanjeSmestaja.Controllers
             {
                 _adminRepository.Aprove(a);
             }
-            return View("ViewAllAccomodation", _adminRepository.getAll());
+            return RedirectToAction("ViewAllAccomodation",_adminRepository.getAll());
         }
 
         public ActionResult Choose()

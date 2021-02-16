@@ -19,7 +19,7 @@
               integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
-  
+
 </head>
 <body>
     <header>
@@ -34,21 +34,23 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Register" asp-action="ViewAll">@localizer["pocetna"]</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ViewAllAccomodation">@localizer["pocetna"]</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Register" asp-action="AddAccomodation">@localizer["dodajStan"]</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Register" asp-action="ViewPreviousReservations">@localizer["previousReservations"]</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Register" asp-action="ViewReservations">@localizer["reservations"]</a>
-                        </li>
-
                         @*<li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@localizer["Privacy"]</a>
-        </li>*@
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@localizer["Privacy"]</a>
+                        </li>*@
+                        @*<li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ViewAllAccomodation">@localizer["smestaj"]</a>
+                        </li>*@
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ViewAllStaggingAccomodation">@localizer["smestajStaging"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Choose">@localizer["choose"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="GetAllUsers">@localizer["allUsers"]</a>
+                        </li>
                         <li>
                             @Html.ActionLink("en", "SetCulture", "Home", new
                             {
@@ -107,7 +109,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
 
-  
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>
