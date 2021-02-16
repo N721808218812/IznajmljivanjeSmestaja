@@ -16,63 +16,23 @@
     </span>
 </div>
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-    <script src="//code.angularjs.org/1.8.0/angular.min.js"></script>
-</head>
+<script src="//code.angularjs.org/1.8.0/angular.min.js"></script>
+
 <body ng-app="myApp" ng-controller="myCtrl">
 
-
-    <table class="table" style="width:600px">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Rooms</th>
-                <th>Guests</th>
-                <th>Title</th>
-                <th>Address</th>
-                <th>Description</th>
-                <th>Amenities</th>
-                <th>Directions</th>
-                <th>Checkin</th>
-                <th>Checkout</th>
-                <th>IdUser</th>
-                <th>CoverPhotoUrl</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="x in records|filter:search_query">
-                <td> {{x.Id}}</td>
-                <td> {{x.Rooms}}</td>
-                <td> {{x.Guests}}</td>
-                <td> {{x.Title}}</td>
-                <td>{{x.Address}}</td>
-                <td> {{x.Description}}</td>
-                <td> {{x.Amenities}}</td>
-                <td> {{x.Directions}}</td>
-                <td> {{x.Checkin}}</td>
-                <td> {{x.Checkout}}</td>
-                <td> {{x.IdUser}}</td>
-                <td>   <img src="../{{x.CoverPhotoUrl}}" width="289" height="194" alt="{{x.CoverPhotoUrl}}" /></td>
-
-                <td>
-                    <a href="/Admin/Edit/{{x.Id}}">Edit</a>
-                    <a href="/Admin/Details/{{x.Id}}">Details</a>
-                    <a href="/Admin/Delete/{{x.Id}}">Delete</a>
-                </td>
-
-
-            </tr>
-        </tbody>
-    </table>
-
-
-
-
+    <div class="row">
+        <div class="col-4" ng-repeat="x in records|filter:search_query">
+            <div class="card" style="width: 18rem; margin-bottom:30px;">
+                <img src="../{{x.CoverPhotoUrl}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{x.Title}}</h5>
+                    <p class="card-text">{{x.Description}}</p>
+                    <a href="/Admin/Details/{{x.Id}}" class="btn btn-primary">@localizer["pogledaj"]</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         var app = angular.module("myApp", []);
@@ -80,6 +40,5 @@
             $scope.records = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model));
         });
     </script>
-    </body>
+</body>
 
-   

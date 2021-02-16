@@ -32,7 +32,7 @@ namespace IznajmljivanjeSmestaja.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-CCNFDCI\\SQLEXPRESS;Database=Booking;Integrated Security=True;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-GLLAB3I\\SQLEXPRESS;Database=Booking;Integrated Security=True;");
             }
         }
 
@@ -285,8 +285,8 @@ namespace IznajmljivanjeSmestaja.Models
             modelBuilder.Entity<Reservation>(entity =>
             {
                 entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    /*.ValueGeneratedNever()*/;
+                    .HasColumnName("id");
+                    //.ValueGeneratedNever();
 
                 entity.Property(e => e.DateCheckin)
                     .HasColumnName("dateCheckin")

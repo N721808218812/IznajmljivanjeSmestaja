@@ -1,111 +1,44 @@
 ﻿@model IEnumerable<IznajmljivanjeSmestaja.Models.Accomodation>
-
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<Resource> localizer
 @{
-    ViewData["Title"] = "Dodaj stan";
+    ViewData["Title"] = "ViewAllAccomodation";
 }
 
-<h1>Register</h1>
+<h1>@localizer["smestaj"]</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="AddAccomodation">@localizer["dodajSmestaj"]</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th hidden>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rooms)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Guests)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amenities)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Directions)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Checkin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Checkout)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Wifi)
-            </th>
-            <th hidden>
-                @Html.DisplayNameFor(model => model.IdUser)
-            </th>
-            <th hidden>
-                @Html.DisplayNameFor(model => model.CoverPhotoUrl)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td hidden>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Rooms)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Guests)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Amenities)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Directions)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Checkin)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Checkout)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Wifi)
-                </td>
-                <td hidden>
-                    @Html.DisplayFor(modelItem => item.IdUser)
-                </td>
-                <td>
-                  
-                    <img src="../@item.CoverPhotoUrl" width="289" height="194" alt="@item.CoverPhotoUrl" />
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new {  id=item.Id  }) |
-                    @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
-                    @Html.ActionLink("Delete", "Delete", new { id=item.Id }) |
-                    @Html.ActionLink("Reserve", "Reserve", new {  id=item.Id  })
-                </td>
+<div class="navbar-brand">
+    <span class="input-group-btn">
+        <input type="text" name="" ng-model="search_query" class="form-control" placeholder="@localizer["pretrazi"]">
+    </span>
+</div>
 
-            </tr>
-        }
-    </tbody>
-</table>
+
+<script src="//code.angularjs.org/1.8.0/angular.min.js"></script>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+
+    <div class="row">
+        <div class="col-4" ng-repeat="x in records|filter:search_query">
+            <div class="card" style="width: 18rem; margin-bottom:30px;">
+                <img src="../{{x.CoverPhotoUrl}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{x.Title}}</h5>
+                    <p class="card-text">{{x.Description}}</p>
+                    <a href="/Register/Details/{{x.Id}}" class="btn btn-primary">@localizer["pogledaj"]</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var app = angular.module("myApp", []);
+        app.controller("myCtrl", function ($scope) {
+            $scope.records = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model));
+        });
+    </script>
+</body>
+

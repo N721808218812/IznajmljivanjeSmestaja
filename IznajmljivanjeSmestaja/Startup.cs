@@ -70,17 +70,18 @@ namespace IznajmljivanjeSmestaja
 
             //dodato kukiji
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            })
-                .AddCookie(options =>
-                {
-                    options.LoginPath = "/Account/Login";
-                    options.LogoutPath = "/Account/Logout";
-                });
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //})
+            //    .AddCookie(options =>
+            //    {
+            //        options.LoginPath = "/Account/Login";
+            //        options.LogoutPath = "/Account/Logout";
+            //    });
+        
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -103,6 +104,7 @@ namespace IznajmljivanjeSmestaja
             app.UseCookiePolicy();
             app.UseRequestLocalization(); //dodato
             app.UseAuthentication();
+            
 
             app.UseMvc(routes =>
             {

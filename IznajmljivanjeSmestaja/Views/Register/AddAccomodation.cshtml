@@ -1,108 +1,134 @@
 ﻿
 @model AccomodationStaging
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<Resource> localizer
 @{
     ViewData["Title"] = "Dodaj stan";
 }
 <div class="container">
-    <h3 class="display-4">Add accomodation</h3>
+    <h2>@localizer["dodajStan"]</h2>
     <hr />
     @if (ViewBag.IsSuccess == true)
     {
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Congratulations</strong> You have added new book successfully. <br />
-            Click <a asp-controller="Book" asp-action="GetBook" asp-route-id="@ViewBag.BookId">here</a> to view the details
+            <strong>@localizer["cestitam"]</strong> @localizer["uspesno"] <br />
+            @*@localizer["klik"] <a asp-controller="Admin" asp-action="Details" asp-route-id="@ViewBag.BookId">@localizer["ovde"]</a> @localizer["detalj"]*@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
     }
 
-<form method="post" enctype="multipart/form-data" asp-action="AddNewBook" asp-controller="Book">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form method="post" enctype="multipart/form-data" asp-action="AddAccomodation" asp-controller="Register">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 
+        <div ng-app="">
+            <div>
+                <p>@localizer["unos"]</p>
+                @localizer["BrojSoba"]: {{Rooms}}, @localizer["BrojGostiju"] {{Guests}},@localizer["Opis"] {{Description}},@localizer["Title"] {{Title}},
+                @localizer["Address"]: {{Address}},@localizer["Amenities"]: {{Amenities}},@localizer["Directions"]: {{Directions}}, @localizer["Checkin"]: {{Checkin}},
+                @localizer["Checkout"]: {{Checkout}}
+            </div>
 
-    <div class="form-group">
-        <label asp-for="Rooms" class="control-label"></label>
-        <input asp-for="Rooms" class="form-control" />
-        <span asp-validation-for="Rooms" class="text-danger"></span>
-    </div>
+            <div class="form-group">
+                <label asp-for="Rooms" class="control-label"></label>
+                <input asp-for="Rooms" ng-model="Rooms" class="form-control" />
+                <span asp-validation-for="Rooms" class="text-danger"></span>
+            </div>
 
-    <div class="form-group">
-        <label asp-for="Guests" class="control-label"></label>
-        <input asp-for="Guests" class="form-control" />
-        <span asp-validation-for="Guests" class="text-danger"></span>
-    </div>
 
-    <div class="form-group">
-        <label asp-for="Description" class="control-label"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
+            <div class="form-group">
+                <label asp-for="Guests" class="control-label"></label>
+                <input asp-for="Guests" ng-model="Guests" class="form-control" />
+                <span asp-validation-for="Guests" class="text-danger"></span>
+            </div>
 
-    <div class="form-group">
-        <label asp-for="Title" class="control-label"></label>
-        <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Address" class="control-label"></label>
-        <input asp-for="Address" class="form-control" />
-        <span asp-validation-for="Address" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Amenities" class="control-label"></label>
-        <input asp-for="Amenities" class="form-control" />
-        <span asp-validation-for="Amenities" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Directions" class="control-label"></label>
-        <input asp-for="Directions" class="form-control" />
-        <span asp-validation-for="Directions" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Checkin" class="control-label"></label>
-        <input asp-for="Checkin" class="form-control" />
-        <span asp-validation-for="Checkin" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Checkout" class="control-label"></label>
-        <input asp-for="Checkout" class="form-control" />
-        <span asp-validation-for="Checkout" class="text-danger"></span>
-    </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" ng-model="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
 
-    <div class="form-group">
-        <label asp-for="Wifi" class="control-label"></label>
-        <input asp-for="Wifi" class="form-control" />
-        <span asp-validation-for="Wifi" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="IdUser" class="control-label"></label>
-        <input asp-for="IdUser" class="form-control" />
-        <span asp-validation-for="IdUser" class="text-danger"></span>
-    </div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" ng-model="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" ng-model="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amenities" class="control-label"></label>
+                <input asp-for="Amenities" ng-model="Amenities" class="form-control" />
+                <span asp-validation-for="Amenities" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Directions" class="control-label"></label>
+                <input asp-for="Directions" ng-model="Directions" class="form-control" />
+                <span asp-validation-for="Directions" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Checkin" class="control-label"></label>
+                <input asp-for="Checkin" ng-model="Checkin" class="form-control" />
+                <span asp-validation-for="Checkin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Checkout" class="control-label"></label>
+                <input asp-for="Checkout" ng-model="Checkout" class="form-control" />
+                <span asp-validation-for="Checkout" class="text-danger"></span>
+            </div>
 
-    <div class="form-group">
-        <label asp-for="CoverPhoto" class="control-label"></label>
-        <div class="custom-file">
-            <input asp-for="CoverPhoto" class="custom-file-input" id="customFile">
-            <label class="custom-file-label" for="customFile">Choose file</label>
+            <div class="form-group">
+                <label asp-for="Wifi" class="control-label"></label>
+                <br />
+                @Html.RadioButtonFor(a => a.Wifi, true) Da
+                <br />
+
+                @Html.RadioButtonFor(a => a.Wifi, false) Ne
+                <span asp-validation-for="Wifi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Html.DropDownList("IdUser", new SelectList(@ViewBag.Users, "Id", "UserName"),
+                    "Choose users",
+                    new
+                         {
+                             @class = "form-control",
+
+                         })
+
+                <span asp-validation-for="IdUser" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+            <label asp-for="IdUser" class="control-label"></label>
+            <input asp-for="IdUser" class="form-control" />
+
+        </div>*@
+
+            <div class="form-group">
+                <label asp-for="CoverPhoto" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="CoverPhoto" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+                <span asp-validation-for="CoverPhoto" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="GalleryFiles" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="GalleryFiles" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+                <span asp-validation-for="GalleryFiles" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value=@localizer["dodajStan"] class="btn btn-primary" style="width:200px;" />
+            </div>
         </div>
-        <span asp-validation-for="CoverPhoto" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="GalleryFiles" class="control-label"></label>
-        <div class="custom-file">
-            <input asp-for="GalleryFiles" class="custom-file-input" id="customFile">
-            <label class="custom-file-label" for="customFile">Choose file</label>
-        </div>
-        <span asp-validation-for="GalleryFiles" class="text-danger"></span>
-    </div>
-
-
-    <div class="form-group">
-        <input type="submit" value="Add accomodation" class="btn btn-primary" />
-    </div>
-</form>
+    </form>
 </div>

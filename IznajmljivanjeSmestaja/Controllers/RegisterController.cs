@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using IznajmljivanjeSmestaja.Models;
 using IznajmljivanjeSmestaja.Models.Interfaces;
 using IznajmljivanjeSmestaja.Models.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -88,17 +89,19 @@ namespace IznajmljivanjeSmestaja.Controllers
 
         public IActionResult Reserve()
         {
+            ViewBag.Users = _registerRepository.GetAllUsers();
             return View();
         }//reserve
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public IActionResult Reserve(Reservation reservation,int id)
         {
             if (ModelState.IsValid)
             {
+                ViewBag.IsSuccess = true;
                 _registerRepository.Reserve(reservation,id);
-                return View("Uspesno");
+                return View();
             }else
                 return View(reservation);
         }//reserve
@@ -159,6 +162,7 @@ namespace IznajmljivanjeSmestaja.Controllers
 
             ViewBag.IsSuccess = isSuccess;
             ViewBag.BookId = bookId;
+            ViewBag.Users = _registerRepository.GetAllUsers();
             return View(model);
         }//addAccomodatioStaging
 
@@ -274,6 +278,13 @@ namespace IznajmljivanjeSmestaja.Controllers
 
             return RedirectToAction("ViewAll");
 
+        }//delete
+
+        public async Task<ActionResult> Details(int id)
+        {
+            var data = await _registerRepository.DetailsAccomodation(id);
+
+            return View(data);
         }
 
     }//class

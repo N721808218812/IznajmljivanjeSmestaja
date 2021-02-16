@@ -117,6 +117,7 @@ namespace IznajmljivanjeSmestaja.Models.Repository
             List<AccomadationGallery> g = database.AccomadationGallery.Where(x => x.IdAccomodation == id).ToList();
             Accomodation a = new Accomodation()
             {
+                Id=accomodation.Id,
                 Address = accomodation.Address,
                 Amenities = accomodation.Amenities,
                 Checkin = accomodation.Checkin,
@@ -135,7 +136,7 @@ namespace IznajmljivanjeSmestaja.Models.Repository
             };
 
             return a;
-        }
+        }//details
 
         public async Task<int> Edit(Accomodation accomodation)
         {
@@ -301,6 +302,21 @@ namespace IznajmljivanjeSmestaja.Models.Repository
             }
             return reservations;
         }//ViewAllReservations
+
+        public IEnumerable<AspNetUsers> GetAllUsers()
+        {
+            List<AspNetUsers> aspNetUsers = new List<AspNetUsers>();
+            foreach (AspNetUsers aspNetUser in database.AspNetUsers)
+            {
+                AspNetUsers a = new AspNetUsers();
+                a.Id = aspNetUser.Id;
+                a.UserName = aspNetUser.UserName;
+                a.Email = aspNetUser.Email;
+                a.PhoneNumber = aspNetUser.PhoneNumber;
+                aspNetUsers.Add(a);
+            }
+            return aspNetUsers;
+        }//getAllUsers
 
     }//class
 }//namespace
