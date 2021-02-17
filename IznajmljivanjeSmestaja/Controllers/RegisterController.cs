@@ -102,6 +102,7 @@ namespace IznajmljivanjeSmestaja.Controllers
         //[ValidateAntiForgeryToken]
         public IActionResult Reserve(Reservation reservation,int id)
         {
+            
             if (ModelState.IsValid)
             {
                 ViewBag.IsSuccess = true;

@@ -291,4 +291,7 @@
   <data name="mojiStanovi" xml:space="preserve">
     <value>Moj smeštaj</value>
   </data>
+  <data name="neuspeh" xml:space="preserve">
+    <value>Morate uneti sva obavezna polja</value>
+  </data>
 </root>

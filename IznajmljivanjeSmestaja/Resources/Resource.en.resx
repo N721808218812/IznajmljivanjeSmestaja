@@ -291,4 +291,7 @@
   <data name="mojiStanovi" xml:space="preserve">
     <value>My accomodation</value>
   </data>
+  <data name="neuspeh" xml:space="preserve">
+    <value>You need to insert required properties</value>
+  </data>
 </root>

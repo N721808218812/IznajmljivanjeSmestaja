@@ -47,11 +47,13 @@ namespace IznajmljivanjeSmestaja.Controllers
         [HttpPost]
         public async Task<IActionResult> AddAccomodation(Accomodation accomodation)
         {
-            if (ModelState.IsValid)
-            {
-                if (accomodation.IdUser != null)
+           
+                if (accomodation.IdUser != null && accomodation.Title!=null && accomodation.Address!=null &&
+                    accomodation.Description!=null && accomodation.Checkin!=null && accomodation.Checkout!=null)
 
-                {
+               {
+                  if (ModelState.IsValid)
+                  {
 
 
                     if (accomodation.CoverPhoto != null)
@@ -89,13 +91,23 @@ namespace IznajmljivanjeSmestaja.Controllers
                 }
                 else
                 {
+                    ViewBag.IsSuccess = false;
                     ViewBag.Users = _adminRepository.GetAllUsers();
                     return View(accomodation);
                 }
             }
+            else
+            {
+                ViewBag.IsSuccess = false;
+                ViewBag.Users = _adminRepository.GetAllUsers();
+                return View(accomodation);
 
+            }
             ViewBag.Users = _adminRepository.GetAllUsers();
             return View(accomodation);
+
+
+
         }
 
         private async Task<string> UploadImage(string folderPath, IFormFile file)

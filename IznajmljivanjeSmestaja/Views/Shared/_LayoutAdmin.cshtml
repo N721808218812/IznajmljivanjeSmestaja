@@ -37,11 +37,11 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ViewAllAccomodation">@localizer["pocetna"]</a>
                         </li>
                         @*<li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@localizer["Privacy"]</a>
-                        </li>*@
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@localizer["Privacy"]</a>
+        </li>*@
                         @*<li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ViewAllAccomodation">@localizer["smestaj"]</a>
-                        </li>*@
+            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ViewAllAccomodation">@localizer["smestaj"]</a>
+        </li>*@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ViewAllStaggingAccomodation">@localizer["smestajStaging"]</a>
                         </li>
@@ -50,6 +50,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="GetAllUsers">@localizer["allUsers"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AddAccomodation">@localizer["dodajStan"]</a>
                         </li>
                         <li>
                             @Html.ActionLink("en", "SetCulture", "Home", new
