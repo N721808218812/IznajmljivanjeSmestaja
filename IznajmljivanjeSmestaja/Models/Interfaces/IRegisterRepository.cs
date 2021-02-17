@@ -26,6 +26,7 @@ namespace IznajmljivanjeSmestaja.Models.Interfaces
         Task<Accomodation> DetailsAccomodation(int id);
 
         IEnumerable<AspNetUsers> GetAllUsers();
+        IEnumerable<Accomodation> GetAccomodationByUserId(string id); //stanovi ulogovanog korisnika
 
 
 

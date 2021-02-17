@@ -289,6 +289,12 @@ namespace IznajmljivanjeSmestaja.Controllers
             var data = await _registerRepository.DetailsAccomodation(id);
 
             return View(data);
+        }//details
+
+        public IActionResult GetMyAccomodations()
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return View(_registerRepository.GetAccomodationByUserId(userId));
         }
 
     }//class

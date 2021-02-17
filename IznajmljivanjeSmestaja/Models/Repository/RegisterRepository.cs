@@ -266,6 +266,18 @@ namespace IznajmljivanjeSmestaja.Models.Repository
             return reservations;
         }//getByUserId
 
+        public IEnumerable<Accomodation> GetAccomodationByUserId(string id)
+        {
+            List<Accomodation> accomodations = new List<Accomodation>();
+            accomodations = database.Accomodation.Where(x => x.IdUser == id).ToList();
+            //foreach (Accomodation accomodation in database.Accomodation)
+            //{
+            //    if ()
+            //        accomodations.Add(accomodation);
+            //}
+            return accomodations;
+        }//getAccomodationByUserId
+
         public void Reserve(Reservation reservation,int id)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;

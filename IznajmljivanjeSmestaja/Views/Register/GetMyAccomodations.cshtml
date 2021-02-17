@@ -1,0 +1,46 @@
+﻿@model IEnumerable<IznajmljivanjeSmestaja.Models.Accomodation>
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<Resource> localizer
+@{
+    ViewData["Title"] = "ViewAllAccomodation";
+}
+
+<h1>@localizer["smestaj"]</h1>
+
+<p>
+    <a asp-action="AddAccomodation">@localizer["dodajSmestaj"]</a>
+</p>
+<div class="navbar-brand">
+    <span class="input-group-btn">
+        <input type="text" name="" ng-model="search_query" class="form-control" placeholder="@localizer["pretrazi"]">
+    </span>
+</div>
+
+
+<script src="//code.angularjs.org/1.8.0/angular.min.js"></script>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+
+    <div class="row">
+        <div class="col-4" ng-repeat="x in records|filter:search_query">
+            <div class="card" style="width: 20rem; margin-bottom:30px;">
+                <img src="../{{x.CoverPhotoUrl}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{x.Title}}</h5>
+                    <p class="card-text">{{x.Description}}</p>
+                    <a href="/Register/Details/{{x.Id}}" class="btn btn-primary">@localizer["pogledaj"]</a>
+                    <a href="/Register/Delete/{{x.Id}}" class="btn btn-primary">@localizer["delete"]</a>
+                    <a href="/Register/Edit/{{x.Id}}" class="btn btn-primary">@localizer["izmeni"]</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var app = angular.module("myApp", []);
+        app.controller("myCtrl", function ($scope) {
+            $scope.records = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model));
+        });
+    </script>
+</body>
+

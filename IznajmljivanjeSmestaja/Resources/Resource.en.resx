@@ -288,4 +288,7 @@
   <data name="reservations" xml:space="preserve">
     <value>Reservations</value>
   </data>
+  <data name="mojiStanovi" xml:space="preserve">
+    <value>My accomodation</value>
+  </data>
 </root>
