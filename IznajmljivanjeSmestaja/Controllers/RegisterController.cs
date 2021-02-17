@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using IznajmljivanjeSmestaja.Models;
 using IznajmljivanjeSmestaja.Models.Interfaces;
@@ -18,10 +19,12 @@ namespace IznajmljivanjeSmestaja.Controllers
         public BookingContext database = new BookingContext();
         private readonly IRegisterRepository _registerRepository = null;
         private readonly IHostingEnvironment _webHostEnvironment = null;
-        public RegisterController(IHostingEnvironment webHostEnvironment)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public RegisterController(IHostingEnvironment webHostEnvironment, IHttpContextAccessor httpContextAccessor)
         {
-            _registerRepository = new RegisterRepository();
+            _registerRepository = new RegisterRepository(httpContextAccessor);
             _webHostEnvironment = webHostEnvironment;
+            _httpContextAccessor = httpContextAccessor;
         }//constructor
 
         public IActionResult Index()
@@ -112,10 +115,10 @@ namespace IznajmljivanjeSmestaja.Controllers
         }//viewAllReservations
 
 
-        public IActionResult GetByUserId(string id)
-        {
-            return View(_registerRepository.GetByUserId(id));
-        }//getByUserId
+        //public IActionResult GetByUserId(string id)
+        //{
+        //    return View(_registerRepository.GetByUserId(id));
+        //}//getByUserId
 
 
         public IActionResult GetByAccomodation(int id)
@@ -148,7 +151,8 @@ namespace IznajmljivanjeSmestaja.Controllers
 
         public IActionResult ViewPreviousReservations(string id)
         {
-            return View(_registerRepository.GetByUserId(id));
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return View(_registerRepository.GetByUserId(userId));
         }//viewPreviousreservations prethodne rezervacije tog korisnika
 
         public IActionResult ViewReservations(int id)

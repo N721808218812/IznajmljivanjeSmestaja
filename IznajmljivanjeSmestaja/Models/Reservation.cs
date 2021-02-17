@@ -15,9 +15,9 @@ namespace IznajmljivanjeSmestaja.Models
         [Required(ErrorMessage = "obaveznoPolje")]
         [Display(Name = "Checkout")]
         public DateTime DateCheckout { get; set; }
-        [Required(ErrorMessage = "obaveznoPolje")]
+        //[Required(ErrorMessage = "obaveznoPolje")]
         public int IdAccomodation { get; set; }
-        [Required(ErrorMessage = "obaveznoPolje")]
+        //[Required(ErrorMessage = "obaveznoPolje")]
         [Display(Name = "korisnickoIme")]
         public string IdUser { get; set; }
 

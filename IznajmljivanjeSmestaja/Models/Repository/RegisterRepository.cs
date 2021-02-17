@@ -1,14 +1,23 @@
 ﻿using IznajmljivanjeSmestaja.Models.Interfaces;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace IznajmljivanjeSmestaja.Models.Repository
 {
     public class RegisterRepository : IRegisterRepository
     {
+        
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public BookingContext database = new BookingContext();
+        public RegisterRepository(IHttpContextAccessor httpContextAccessor)
+        {
+            _httpContextAccessor = httpContextAccessor;
+        }
+        public RegisterRepository() { }
         public void CancelReservation(Reservation reservation)
         {
             try
@@ -25,6 +34,7 @@ namespace IznajmljivanjeSmestaja.Models.Repository
 
         public async Task<int> Create(AccomodationStaging accomodationStaging)
         {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             AccomodationStaging a = new AccomodationStaging();
             a.Address = accomodationStaging.Address;
             a.Amenities = accomodationStaging.Amenities;
@@ -36,7 +46,7 @@ namespace IznajmljivanjeSmestaja.Models.Repository
             a.Wifi = accomodationStaging.Wifi;
             a.Title = accomodationStaging.Title;
             a.Guests = accomodationStaging.Guests;
-            a.IdUser = accomodationStaging.IdUser;
+            a.IdUser = userId;
             if (accomodationStaging.CoverPhotoUrl != null)
             {
                 a.CoverPhotoUrl = accomodationStaging.CoverPhotoUrl;
@@ -115,9 +125,11 @@ namespace IznajmljivanjeSmestaja.Models.Repository
         {
             Accomodation accomodation = database.Accomodation.Where(x => x.Id == id).FirstOrDefault();
             List<AccomadationGallery> g = database.AccomadationGallery.Where(x => x.IdAccomodation == id).ToList();
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Accomodation a = new Accomodation()
             {
-                Id=accomodation.Id,
+                 
+            Id =accomodation.Id,
                 Address = accomodation.Address,
                 Amenities = accomodation.Amenities,
                 Checkin = accomodation.Checkin,
@@ -129,7 +141,7 @@ namespace IznajmljivanjeSmestaja.Models.Repository
                 Title = accomodation.Title,
                 Guests = accomodation.Guests,
                 CoverPhotoUrl = accomodation.CoverPhotoUrl,
-                IdUser = accomodation.IdUser,
+                IdUser = userId,
                 Gallery = g
 
 
@@ -140,6 +152,7 @@ namespace IznajmljivanjeSmestaja.Models.Repository
 
         public async Task<int> Edit(Accomodation accomodation)
         {
+
             Accomodation a = database.Accomodation.Where(p => p.Id == accomodation.Id).FirstOrDefault();
             a.Address = accomodation.Address;
             a.Amenities = accomodation.Amenities;
@@ -255,13 +268,14 @@ namespace IznajmljivanjeSmestaja.Models.Repository
 
         public void Reserve(Reservation reservation,int id)
         {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Reservation r = new Reservation();
             //r.Id = reservation.Id;
             r.DateCheckin = reservation.DateCheckin;
             r.DateCheckout = reservation.DateCheckout;
             r.IdAccomodation =id;
             
-            r.IdUser = reservation.IdUser;
+            r.IdUser = userId;
             if (database.AspNetUsers.Any(u => u.Id.Equals(r.IdUser)))
             {
                 database.Reservation.Add(r);

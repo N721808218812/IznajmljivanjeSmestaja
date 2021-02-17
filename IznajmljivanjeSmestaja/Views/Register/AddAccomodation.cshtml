@@ -90,7 +90,7 @@
                 @Html.RadioButtonFor(a => a.Wifi, false) Ne
                 <span asp-validation-for="Wifi" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 @Html.DropDownList("IdUser", new SelectList(@ViewBag.Users, "Id", "UserName"),
                     "Choose users",
                     new
@@ -100,7 +100,7 @@
                          })
 
                 <span asp-validation-for="IdUser" class="text-danger"></span>
-            </div>
+            </div>*@
             @*<div class="form-group">
             <label asp-for="IdUser" class="control-label"></label>
             <input asp-for="IdUser" class="form-control" />
