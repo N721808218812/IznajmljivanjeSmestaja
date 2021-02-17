@@ -36,7 +36,7 @@ namespace IznajmljivanjeSmestaja.Controllers
         {
             return View(_registerRepository.ViewAll());
         }//viewAll
-
+        [Authorize]
         public async Task<ActionResult> Edit(int id, bool isSuccess = false)
         {
             ViewBag.IsSuccess = isSuccess;
@@ -46,6 +46,7 @@ namespace IznajmljivanjeSmestaja.Controllers
             return View(data);
         }//edit
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> Edit(Accomodation accomodation)
         {
@@ -89,7 +90,7 @@ namespace IznajmljivanjeSmestaja.Controllers
 
             return View();
         }//edit
-
+        [Authorize]
         public IActionResult Reserve()
         {
             ViewBag.Users = _registerRepository.GetAllUsers();
@@ -97,6 +98,7 @@ namespace IznajmljivanjeSmestaja.Controllers
         }//reserve
 
         [HttpPost]
+        [Authorize]
         //[ValidateAntiForgeryToken]
         public IActionResult Reserve(Reservation reservation,int id)
         {
@@ -108,7 +110,7 @@ namespace IznajmljivanjeSmestaja.Controllers
             }else
                 return View(reservation);
         }//reserve
-
+        [Authorize]
         public IActionResult ViewAllReservations()
         {
             return View(_registerRepository.ViewAllReservations());
@@ -120,12 +122,12 @@ namespace IznajmljivanjeSmestaja.Controllers
         //    return View(_registerRepository.GetByUserId(id));
         //}//getByUserId
 
-
+        [Authorize]
         public IActionResult GetByAccomodation(int id)
         {
             return View(_registerRepository.GetByAccomodation(id));
         }//getByUserId
-
+        [Authorize]
         public IActionResult CancelReservation(int id)
         {
             if (id == null)
@@ -136,6 +138,7 @@ namespace IznajmljivanjeSmestaja.Controllers
         }//getByReservationId
 
         [HttpPost]
+        [Authorize]
         public IActionResult CancelReservation(Reservation reservation)
         {
             try
@@ -148,18 +151,18 @@ namespace IznajmljivanjeSmestaja.Controllers
                  return RedirectToAction("ViewAllreservations");
             }
         }//getByReservationId
-
+        [Authorize]
         public IActionResult ViewPreviousReservations(string id)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             return View(_registerRepository.GetByUserId(userId));
         }//viewPreviousreservations prethodne rezervacije tog korisnika
-
+        [Authorize]
         public IActionResult ViewReservations(int id)
         {
             return View(_registerRepository.GetByAccomodation(id));
         }//viewReservations ko je rezervisao taj smestaj
-
+        [Authorize]
         public async Task<ViewResult> AddAccomodation(bool isSuccess = false, int bookId = 0)
         {
             var model = new AccomodationStaging();
@@ -171,6 +174,7 @@ namespace IznajmljivanjeSmestaja.Controllers
         }//addAccomodatioStaging
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddAccomodation(AccomodationStaging accomodationStaging)
         {
             if (ModelState.IsValid)
@@ -213,6 +217,7 @@ namespace IznajmljivanjeSmestaja.Controllers
             return View();
         }//addAccomodation
 
+        [Authorize]
         private async Task<string> UploadImage(string folderPath, IFormFile file)
         {
 
@@ -236,7 +241,7 @@ namespace IznajmljivanjeSmestaja.Controllers
         }//delete
 
         [HttpPost]
-
+        [Authorize]
         public async Task<ActionResult> Delete(int id)
         {
             if (id != null)
@@ -283,14 +288,14 @@ namespace IznajmljivanjeSmestaja.Controllers
             return RedirectToAction("ViewAll");
 
         }//delete
-
+        [Authorize]
         public async Task<ActionResult> Details(int id)
         {
             var data = await _registerRepository.DetailsAccomodation(id);
 
             return View(data);
         }//details
-
+        [Authorize]
         public IActionResult GetMyAccomodations()
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;

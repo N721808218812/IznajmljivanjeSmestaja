@@ -41,9 +41,28 @@ namespace IznajmljivanjeSmestaja
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddDefaultUI(UIFramework.Bootstrap4)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            //bilo pre ovoga dole
+            //services.AddDefaultIdentity<IdentityUser>()
+            //    .AddDefaultUI(UIFramework.Bootstrap4)
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            //services.AddIdentity<IdentityUser, IdentityRole>()
+            //    .AddDefaultUI(UIFramework.Bootstrap4)
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            //promenjen
+            services.AddIdentity<IdentityUser, IdentityRole>()
+.AddDefaultUI()
+.AddDefaultTokenProviders()
+.AddEntityFrameworkStores<ApplicationDbContext>();
+
+            //        services.AddIdentity<IdentityUser, IdentityRole>()
+            //.AddRoles<IdentityRole>()
+            //.AddDefaultTokenProviders()
+            //.AddEntityFrameworkStores<ApplicationDbContext>();
+
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddLocalization(opts => opts.ResourcesPath = "Resources"); //dodato
@@ -70,6 +89,8 @@ namespace IznajmljivanjeSmestaja
             //dodato
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+          
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,7 +113,8 @@ namespace IznajmljivanjeSmestaja
             app.UseCookiePolicy();
             app.UseRequestLocalization(); //dodato
             app.UseAuthentication();
-            
+           
+
 
             app.UseMvc(routes =>
             {

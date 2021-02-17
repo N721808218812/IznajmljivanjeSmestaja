@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using IznajmljivanjeSmestaja.Models;
 using IznajmljivanjeSmestaja.Models.Interfaces;
 using IznajmljivanjeSmestaja.Models.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace IznajmljivanjeSmestaja.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         public BookingContext database = new BookingContext();
@@ -44,7 +46,7 @@ namespace IznajmljivanjeSmestaja.Controllers
 
         [HttpPost]
         public async Task<IActionResult> AddAccomodation(Accomodation accomodation)
-       {
+        {
             if (ModelState.IsValid)
             {
                 if (accomodation.IdUser != null)
@@ -113,7 +115,7 @@ namespace IznajmljivanjeSmestaja.Controllers
             return View(_adminRepository.getAll());
         }
 
-   
+
 
         public async Task<ActionResult> Delete(int? id)
         {
@@ -140,7 +142,7 @@ namespace IznajmljivanjeSmestaja.Controllers
 
                 //    var path = _webHostEnvironment.WebRootPath + "\\images\\cover\\" + name;
 
-                //    /* var path = Path.Combine(_webHostEnvironment.WebRootPath, "\\images\\cover", name);*/
+                //    /* var path = Path.Combine(_webHostEnvironment.WebRootPath, "\\images\\cover", name);
                 //    FileInfo fi = new FileInfo(path);
                 //    if (fi != null)
                 //    {
