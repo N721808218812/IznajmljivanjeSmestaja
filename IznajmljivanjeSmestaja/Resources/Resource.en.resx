@@ -294,4 +294,7 @@
   <data name="neuspeh" xml:space="preserve">
     <value>You need to insert required properties</value>
   </data>
+  <data name="uspesnoPoruka2" xml:space="preserve">
+    <value>After approval your accomodation will be published.</value>
+  </data>
 </root>

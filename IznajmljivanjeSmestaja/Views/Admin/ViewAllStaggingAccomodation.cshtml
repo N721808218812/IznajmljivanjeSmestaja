@@ -25,17 +25,19 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Rooms</th>
-                <th>Guests</th>
-                <th>Title</th>
-                <th>Address</th>
-                <th>Description</th>
-                <th>Amenities</th>
-                <th>Directions</th>
-                <th>Checkin</th>
-                <th>Checkout</th>
-                <th>IdUser</th>
-                <th>CoverPhotoUrl</th>
+                <th>@localizer["Rooms"]</th>
+                <th> @localizer["Guests"]</th>
+                <th>@localizer["Title"]</th>
+                <th>@localizer["Address"]</th>
+                <th>@localizer["Description"]</th>
+                <th> @localizer["Amenities"]</th>
+                <th>@localizer["Directions"]</th>
+                <th> @localizer["Checkin"]</th>
+                <th>@localizer["Checkout"]</th>
+                <th>@localizer["korisnickoIme"]</th>
+                <th>@localizer["coverUrl"]</th>
+
+
             </tr>
         </thead>
         <tbody>
@@ -51,11 +53,13 @@
                 <td> {{x.Checkin}}</td>
                 <td> {{x.Checkout}}</td>
                 <td> {{x.IdUser}}</td>
+              
                 <td>   <img src="../{{x.CoverPhotoUrl}}" width="289" height="194" alt="{{x.CoverPhotoUrl}}" /></td>
+
 
                 <td>
                     <a href="/Admin/Aprove/{{x.Id}}">Aprove</a>
-                  
+
                 </td>
 
 

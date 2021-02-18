@@ -259,6 +259,7 @@ namespace IznajmljivanjeSmestaja.Models.Repository
                 a.Title = accomodationStaging.Title;
                 a.Guests = accomodationStaging.Guests;
                 a.Id = accomodationStaging.Id;
+                a.CoverPhotoUrl = accomodationStaging.CoverPhotoUrl;
                 accomodationsStaging.Add(a);
             }
             return accomodationsStaging;

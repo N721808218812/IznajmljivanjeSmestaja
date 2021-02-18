@@ -10,13 +10,13 @@
     <hr />
     @if (ViewBag.IsSuccess == true)
     {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>@localizer["cestitam"]</strong> @localizer["uspesno"] <br />
-            @*@localizer["klik"] <a asp-controller="Admin" asp-action="Details" asp-route-id="@ViewBag.BookId">@localizer["ovde"]</a> @localizer["detalj"]*@
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>@localizer["cestitam"]</strong> @localizer["uspesno"] @localizer["uspesnoPoruka2"] <br />
+    @*@localizer["klik"] <a asp-controller="Admin" asp-action="Details" asp-route-id="@ViewBag.BookId">@localizer["ovde"]</a> @localizer["detalj"]*@
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
     }
 
     <form method="post" enctype="multipart/form-data" asp-action="AddAccomodation" asp-controller="Register">

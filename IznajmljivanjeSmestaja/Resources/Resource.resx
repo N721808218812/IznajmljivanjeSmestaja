@@ -294,4 +294,7 @@
   <data name="neuspeh" xml:space="preserve">
     <value>Morate uneti sva obavezna polja</value>
   </data>
+  <data name="uspesnoPoruka2" xml:space="preserve">
+    <value>Nakon odobrenja administratora stan će biti prikazan u ponudi.</value>
+  </data>
 </root>
