@@ -45,7 +45,14 @@
                     @Html.DisplayFor(modelItem => item.IdAccomodation)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdUser)
+                    @*@Html.DisplayFor(modelItem => item.IdUser)*@
+                    @foreach (var user in ViewBag.Users)
+                    {
+                        if (item.IdUser == user.Id)
+                        {
+                            @user.UserName;
+                        }
+                    }
                 </td>
                 @*<td>
                         @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

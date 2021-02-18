@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<IznajmljivanjeSmestaja.Models.Reservation>
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<Resource> localizer
 
 @{
     ViewData["Title"] = "Reservations";
@@ -45,13 +47,21 @@
                     @Html.DisplayFor(modelItem => item.IdAccomodation)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdUser)
+                    @*@Html.DisplayFor(modelItem => item.IdUser)*@
+                    @foreach (var user in ViewBag.Users)
+                    {
+                        if (item.IdUser == user.Id)
+                        {
+                            @user.UserName;
+                        }
+                    }
                 </td>
-                @*<td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "CancelReservation", new { id = item.Id })
-                </td>*@
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
+                    @Html.ActionLink(@localizer["cancel"], "CancelReservation", new { id = item.Id })
+                 
+                </td>
             </tr>
         }
     </tbody>

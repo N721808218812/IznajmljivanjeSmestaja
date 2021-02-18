@@ -133,7 +133,7 @@ namespace IznajmljivanjeSmestaja.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction("ViewAllReservations");
+                return RedirectToAction("ViewReservations");
             }
             return View(_registerRepository.GetByReservationId(id));
         }//getByReservationId
@@ -145,23 +145,28 @@ namespace IznajmljivanjeSmestaja.Controllers
             try
             {
                 _registerRepository.CancelReservation(reservation);
-                 return RedirectToAction("ViewAllReservations");
+                 return RedirectToAction("ViewReservations");
             }
             catch
             {
-                 return RedirectToAction("ViewAllreservations");
+                 return RedirectToAction("ViewReservations");
             }
         }//getByReservationId
         [Authorize]
         public IActionResult ViewPreviousReservations(string id)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            ViewBag.Users = _registerRepository.GetAllUsers();
             return View(_registerRepository.GetByUserId(userId));
         }//viewPreviousreservations prethodne rezervacije tog korisnika
+
         [Authorize]
-        public IActionResult ViewReservations(int id)
+        public IActionResult ViewReservations()
         {
-            return View(_registerRepository.GetByAccomodation(id));
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var i =database.Accomodation.Where(x => x.IdUser == userId).Select(x=>x.Id).FirstOrDefault();
+            ViewBag.Users = _registerRepository.GetAllUsers();
+            return View(_registerRepository.GetByAccomodation(i));
         }//viewReservations ko je rezervisao taj smestaj
         [Authorize]
         public async Task<ViewResult> AddAccomodation(bool isSuccess = false, int bookId = 0)
