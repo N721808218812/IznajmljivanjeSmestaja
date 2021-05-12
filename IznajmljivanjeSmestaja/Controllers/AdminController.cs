@@ -41,7 +41,7 @@ namespace IznajmljivanjeSmestaja.Controllers
             ViewBag.IsSuccess = isSuccess;
             ViewBag.BookId = bookId;
             ViewBag.Users = _adminRepository.GetAllUsers();
-            return View(model);
+            return View("AddAccomodation",model);
         }
 
         [HttpPost]
