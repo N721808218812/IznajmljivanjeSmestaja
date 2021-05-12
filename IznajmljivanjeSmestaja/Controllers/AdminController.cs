@@ -17,7 +17,9 @@ namespace IznajmljivanjeSmestaja.Controllers
     [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
-        public BookingContext database = new BookingContext();
+        //public BookingContext database = new BookingContext();
+        public  BookingContext database { get; set; }
+        
         private readonly IAdminRepository _adminRepository = null;
 
         private readonly IHostingEnvironment _webHostEnvironment = null;
@@ -28,6 +30,8 @@ namespace IznajmljivanjeSmestaja.Controllers
             _adminRepository = new AdminRepository();
 
             _webHostEnvironment = webHostEnvironment;
+
+            database = new BookingContext();
         }
 
         public IActionResult Index()
@@ -93,18 +97,18 @@ namespace IznajmljivanjeSmestaja.Controllers
                 {
                     ViewBag.IsSuccess = false;
                     ViewBag.Users = _adminRepository.GetAllUsers();
-                    return View(accomodation);
+                    return View("AddAccomodation",accomodation);
                 }
             }
             else
             {
                 ViewBag.IsSuccess = false;
                 ViewBag.Users = _adminRepository.GetAllUsers();
-                return View(accomodation);
+                return View("AddAccomodation",accomodation);
 
             }
             ViewBag.Users = _adminRepository.GetAllUsers();
-            return View(accomodation);
+            return View("AddAccomodation",accomodation);
 
 
 

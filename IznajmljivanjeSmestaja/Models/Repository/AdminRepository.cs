@@ -10,8 +10,13 @@ namespace IznajmljivanjeSmestaja.Models.Repository
 {
     public class AdminRepository : IAdminRepository
     {
+        public BookingContext database { get; set; }
+        public AdminRepository()
+        {
+            database = new BookingContext();
+        }
 
-        public BookingContext database = new BookingContext();
+        //public BookingContext database = new BookingContext();
         public async Task<int> Add(Accomodation accomodation)
         {
             
