@@ -1,4 +1,5 @@
-﻿using IznajmljivanjeSmestaja.Models.Interfaces;
+﻿using IznajmljivanjeSmestaja.Controllers;
+using IznajmljivanjeSmestaja.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,6 +15,8 @@ namespace IznajmljivanjeSmestaja.Models.Repository
         public AdminRepository()
         {
             database = new BookingContext();
+
+
         }
 
         //public BookingContext database = new BookingContext();
@@ -99,21 +102,21 @@ namespace IznajmljivanjeSmestaja.Models.Repository
                
                 database.SaveChanges();
 
-                List<AccomadationGallery> ag = database.AccomadationGallery.Where(p => p.IdAccomodationStaging == accomodationStaging.Id).ToList();
-                if (ag != null)
-                {
-                    foreach (var file in ag)
-                    {
-                        AccomadationGallery ac = new AccomadationGallery();
-                        ac.Url = file.Url;
-                        ac.Name = file.Name;
-                        ac.IdAccomodation = a.Id;
-                        //database.AccomadationGallery.Add(ac);
-                        database.AccomadationGallery.Add(ac);
-                        database.AccomadationGallery.Remove(file);
+                //List<AccomadationGallery> ag = database.AccomadationGallery.Where(p => p.IdAccomodationStaging == accomodationStaging.Id).ToList();
+                //if (ag != null)
+                //{
+                //    foreach (var file in ag)
+                //    {
+                //        AccomadationGallery ac = new AccomadationGallery();
+                //        ac.Url = file.Url;
+                //        ac.Name = file.Name;
+                //        ac.IdAccomodation = a.Id;
+                //        //database.AccomadationGallery.Add(ac);
+                //        database.AccomadationGallery.Add(ac);
+                //        database.AccomadationGallery.Remove(file);
 
-                    }
-                }
+                //    }
+                //}
                 database.AccomodationStaging.Remove(accomodationStaging);
                 database.SaveChanges();
 
@@ -133,12 +136,12 @@ namespace IznajmljivanjeSmestaja.Models.Repository
             {
                 var getAccomodationdetails = await database.Accomodation.FindAsync(id);
                 List<AccomadationGallery> accomadationGallery = database.AccomadationGallery.Where(x => x.IdAccomodation == getAccomodationdetails.Id).ToList();
-               List<Reservation> reservation = database.Reservation.Where(x => x.IdAccomodation == getAccomodationdetails.Id).ToList();
+                List<Reservation> reservation = database.Reservation.Where(x => x.IdAccomodation == getAccomodationdetails.Id).ToList();
 
                 if (accomadationGallery != null)
                 {
-                    foreach(var pom in accomadationGallery) 
-                    database.AccomadationGallery.Remove(pom);
+                    foreach (var pom in accomadationGallery)
+                        database.AccomadationGallery.Remove(pom);
 
                 }
                 if (reservation != null)
@@ -165,6 +168,7 @@ namespace IznajmljivanjeSmestaja.Models.Repository
         {
 
             Accomodation a = database.Accomodation.Where(p => p.Id == accomodation.Id).FirstOrDefault();
+            if (a != null) { 
             a.Address = accomodation.Address;
             a.Amenities = accomodation.Amenities;
             a.Checkin = accomodation.Checkin;
@@ -184,40 +188,42 @@ namespace IznajmljivanjeSmestaja.Models.Repository
             await database.SaveChangesAsync();
 
 
-            if (accomodation.Gallery != null)
-            {
-                a.AccomadationGallery = new List<AccomadationGallery>();
-
-
-
-                //await database.SaveChangesAsync();
-
-
-                var pom1 = a.Id;
-
-                List<AccomadationGallery> lista = database.AccomadationGallery.Where(pa => pa.IdAccomodation == pom1).ToList();
-                foreach (var l in lista)
+                if (accomodation.Gallery != null)
                 {
-                    database.AccomadationGallery.Remove(l);
+                    a.AccomadationGallery = new List<AccomadationGallery>();
+
+
+
+                    //await database.SaveChangesAsync();
+
+
+                    var pom1 = a.Id;
+
+                    List<AccomadationGallery> lista = database.AccomadationGallery.Where(pa => pa.IdAccomodation == pom1).ToList();
+                    foreach (var l in lista)
+                    {
+                        database.AccomadationGallery.Remove(l);
+                    }
+
+                    database.SaveChanges();
+
+
+
+                    foreach (var file in accomodation.Gallery)
+                    {
+                        AccomadationGallery ac = new AccomadationGallery();
+
+                        ac.Url = file.Url;
+                        ac.Name = file.Name;
+                        ac.IdAccomodation = pom1;
+                        //database.AccomadationGallery.Add(ac);
+                        await database.AccomadationGallery.AddAsync(ac);
+
+                    }
+
+                    await database.SaveChangesAsync();
                 }
 
-                database.SaveChanges();
-
-
-
-                foreach (var file in accomodation.Gallery)
-                {
-                    AccomadationGallery ac = new AccomadationGallery();
-
-                    ac.Url = file.Url;
-                    ac.Name = file.Name;
-                    ac.IdAccomodation = pom1;
-                    //database.AccomadationGallery.Add(ac);
-                    await database.AccomadationGallery.AddAsync(ac);
-
-                }
-
-                await database.SaveChangesAsync();
 
             }
 
@@ -247,6 +253,7 @@ namespace IznajmljivanjeSmestaja.Models.Repository
         }
 
         public IEnumerable<AccomodationStaging> getAllStagging()
+            
         {
             List<AccomodationStaging> accomodationsStaging = new List<AccomodationStaging>();
             foreach (AccomodationStaging accomodationStaging in database.AccomodationStaging)
@@ -299,32 +306,41 @@ namespace IznajmljivanjeSmestaja.Models.Repository
 
         public async Task<Accomodation> DetailsAccomodation(int id)
         {
-          Accomodation accomodation=database.Accomodation.Where(x => x.Id == id).FirstOrDefault();
-            List<AccomadationGallery> g = database.AccomadationGallery.Where(x => x.IdAccomodation == id).ToList();
-            Accomodation a = new Accomodation()
+            
+           
+            Accomodation accomodation=database.Accomodation.Where(x => x.Id == id).FirstOrDefault();
+
+            if (accomodation != null)
             {
-                Address = accomodation.Address,
-                Amenities = accomodation.Amenities,
-                Checkin = accomodation.Checkin,
-                Checkout = accomodation.Checkout,
-                Description = accomodation.Description,
-                Directions = accomodation.Directions,
-                Rooms = accomodation.Rooms,
-                Wifi = accomodation.Wifi,
-                Title = accomodation.Title,
-                Guests = accomodation.Guests,
-                CoverPhotoUrl = accomodation.CoverPhotoUrl,
-                IdUser=accomodation.IdUser,
-                Gallery=g
-               
-                
-            };
-            
-            
+                List<AccomadationGallery> g = database.AccomadationGallery.Where(x => x.IdAccomodation == id).ToList();
+                Accomodation a = new Accomodation()
+                {
 
-            
+                    Address = accomodation.Address,
+                    Amenities = accomodation.Amenities,
+                    Checkin = accomodation.Checkin,
+                    Checkout = accomodation.Checkout,
+                    Description = accomodation.Description,
+                    Directions = accomodation.Directions,
+                    Rooms = accomodation.Rooms,
+                    Wifi = accomodation.Wifi,
+                    Title = accomodation.Title,
+                    Guests = accomodation.Guests,
+                    CoverPhotoUrl = accomodation.CoverPhotoUrl,
+                    IdUser = accomodation.IdUser,
+                    Gallery = g
 
-            return a;
+
+                };
+
+
+                return a;
+            }
+            else
+            {
+                accomodation = null;
+                return accomodation;
+            }
 
             
         }

@@ -20,7 +20,7 @@ namespace IznajmljivanjeSmestaja.Controllers
         //public BookingContext database = new BookingContext();
         public  BookingContext database { get; set; }
         
-        private readonly IAdminRepository _adminRepository = null;
+        private readonly AdminRepository _adminRepository = null;
 
         private readonly IHostingEnvironment _webHostEnvironment = null;
         //private readonly IWebHostEnvironment _webHostEnvironment;
@@ -29,9 +29,11 @@ namespace IznajmljivanjeSmestaja.Controllers
         {
             _adminRepository = new AdminRepository();
 
+          
             _webHostEnvironment = webHostEnvironment;
 
             database = new BookingContext();
+          
         }
 
         public IActionResult Index()
@@ -140,7 +142,7 @@ namespace IznajmljivanjeSmestaja.Controllers
                 return RedirectToAction("ViewAllAccomodation");
             }
             var getcategorydetails = await database.Accomodation.FindAsync(id);
-            return View(getcategorydetails);
+            return View("Delete",getcategorydetails);
         }
 
         [HttpPost]
@@ -222,8 +224,10 @@ namespace IznajmljivanjeSmestaja.Controllers
             ViewBag.IsSuccess = isSuccess;
             ViewBag.BookId = id;
             var data = await _adminRepository.DetailsAccomodation(id);
+            
 
-            return View(data);
+            return View("Edit", data);
+         
         }
 
         [HttpPost]
@@ -267,7 +271,7 @@ namespace IznajmljivanjeSmestaja.Controllers
             }
 
 
-            return View();
+            return View("Edit");
         }
 
         public ActionResult Aprove(int id)
@@ -283,7 +287,7 @@ namespace IznajmljivanjeSmestaja.Controllers
 
         public ActionResult Choose()
         {
-            return View(_adminRepository.getAll());
+            return View("Choose",_adminRepository.getAll());
         }
     }
 }
