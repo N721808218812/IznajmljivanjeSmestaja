@@ -151,6 +151,45 @@ namespace IznajmljivanjeSmestaja.Controllers
         {
             if (id != null)
             {
+                try
+                {
+
+                    var getAccomodationdetails = await database.Accomodation.FindAsync(id);
+                    if (getAccomodationdetails != null)
+                    {
+                        List<AccomadationGallery> accomadationGallery = database.AccomadationGallery.Where(x => x.IdAccomodation == getAccomodationdetails.Id).ToList();
+                        List<Reservation> reservation = database.Reservation.Where(x => x.IdAccomodation == getAccomodationdetails.Id).ToList();
+
+                        if (accomadationGallery != null)
+                        {
+                            foreach (var pom in accomadationGallery)
+                                database.AccomadationGallery.Remove(pom);
+
+                        }
+                        if (reservation != null)
+                        {
+                            foreach (var pom in reservation)
+                                database.Reservation.Remove(pom);
+                        }
+                        database.Accomodation.Remove(getAccomodationdetails);
+                        database.SaveChanges();
+                        await database.SaveChangesAsync();
+                        int i = 1;
+
+                       
+                    }
+                    else
+                    {
+                        int i = 0;
+                   
+                    }
+                }
+                catch (Exception ex)
+                {
+                   
+                    Console.WriteLine(ex);
+                   
+                }
                 //    var getAccomodationdetails = await database.Accomodation.FindAsync(id);
                 //    var name = getAccomodationdetails.CoverPhotoUrl;
                 //    if (name != null)
@@ -193,7 +232,7 @@ namespace IznajmljivanjeSmestaja.Controllers
                 //    }
 
 
-                int i = await _adminRepository.Delete(id);
+                //int i = await _adminRepository.Delete(id);
 
             }
           
@@ -276,11 +315,58 @@ namespace IznajmljivanjeSmestaja.Controllers
 
         public ActionResult Aprove(int id)
         {
-            AccomodationStaging a = database.AccomodationStaging.Where(p => p.Id == id).FirstOrDefault();
+            AccomodationStaging accomodationStaging = database.AccomodationStaging.Where(p => p.Id == id).FirstOrDefault();
 
-            if (a != null)
+            if (accomodationStaging != null)
             {
-                _adminRepository.Aprove(a);
+                Accomodation a = new Accomodation();
+                a.Address = accomodationStaging.Address;
+                a.Amenities = accomodationStaging.Amenities;
+                a.Checkin = accomodationStaging.Checkin;
+                a.Checkout = accomodationStaging.Checkout;
+                a.Description = accomodationStaging.Description;
+                a.Directions = accomodationStaging.Directions;
+                a.IdUser = accomodationStaging.IdUser;
+                a.Rooms = accomodationStaging.Rooms;
+                a.Wifi = accomodationStaging.Wifi;
+                a.Title = accomodationStaging.Title;
+                a.Guests = accomodationStaging.Guests;
+                a.CoverPhotoUrl = accomodationStaging.CoverPhotoUrl;
+
+
+
+                database.Accomodation.Add(a);
+                try
+                {
+
+
+                    database.SaveChanges();
+
+                    List<AccomadationGallery> ag = database.AccomadationGallery.Where(p => p.IdAccomodationStaging == accomodationStaging.Id).ToList();
+                    if (ag != null)
+                    {
+                        foreach (var file in ag)
+                        {
+                            AccomadationGallery ac = new AccomadationGallery();
+                            ac.Url = file.Url;
+                            ac.Name = file.Name;
+                            ac.IdAccomodation = a.Id;
+                            //database.AccomadationGallery.Add(ac);
+                            database.AccomadationGallery.Add(ac);
+                            database.AccomadationGallery.Remove(file);
+
+                        }
+                    }
+                    database.AccomodationStaging.Remove(accomodationStaging);
+                    database.SaveChanges();
+
+
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
             }
             return RedirectToAction("ViewAllAccomodation",_adminRepository.getAll());
         }
